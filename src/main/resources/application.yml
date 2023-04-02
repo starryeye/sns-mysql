@@ -1,6 +1,13 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/sns?serverTimezone=UTC&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/sns?rewriteBatchedStatements=true&serverTimezone=UTC&characterEncoding=UTF-8
     username: sns-svc
     password: sns-pass
+
+logging:
+  level:
+    org:
+      springframework:
+        jdbc:
+          core: TRACE

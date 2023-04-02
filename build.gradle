@@ -18,15 +18,25 @@ repositories {
 	mavenCentral()
 }
 
+//jdbc api, spring web, lombok, spring boot devtools, spring configuration processor, mysql driver
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	//추가 spring data commons
+	implementation 'org.springframework.data:spring-data-commons:3.0.4'
+	//추가 springdoc-openapi-ui
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
+
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.mysql:mysql-connector-j'
+
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	//추가 easy random
+	testImplementation 'org.jeasy:easy-random-core:5.0.0'
 }
 
 tasks.named('test') {

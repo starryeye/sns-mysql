@@ -8,8 +8,10 @@
 - Jdbc api
 - Lombok
 - MySQL
+- Springdoc
 - 
 
 ## Tool
 - Intellij Ultimate
 - Docker
+- DataGrip

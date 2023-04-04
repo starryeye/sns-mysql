@@ -32,6 +32,12 @@ public class Member {
         this.createdAt = createdAt == null ? LocalDateTime.now() : createdAt;
     }
 
+    public void changeNickname(String to) {
+        Objects.requireNonNull(to);
+        validateNickname(to);
+        this.nickname = to;
+    }
+
     void validateNickname(String nickname) {
         Assert.isTrue(nickname.length() <= NAME_MAX_LENGTH, "닉네임은 10자를 넘길 수 없습니다.");
     }

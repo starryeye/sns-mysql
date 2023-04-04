@@ -1,7 +1,7 @@
 package dev.practice.snsmysql.controller;
 
+import dev.practice.snsmysql.domain.member.dto.MemberDto;
 import dev.practice.snsmysql.domain.member.dto.RegisterMemberCommand;
-import dev.practice.snsmysql.domain.member.entity.Member;
 import dev.practice.snsmysql.domain.member.service.MemberReadService;
 import dev.practice.snsmysql.domain.member.service.MemberWriteService;
 import lombok.RequiredArgsConstructor;
@@ -15,13 +15,15 @@ public class MemberController {
     private final MemberReadService memberReadService;
 
     @PostMapping("/members")
-    public Member register(@RequestBody RegisterMemberCommand command) {
+    public MemberDto register(@RequestBody RegisterMemberCommand command) {
 
-        return memberWriteService.create(command);
+        var member = memberWriteService.register(command);
+        return memberReadService.toDto(member); //TODO: DtoMapper
     }
 
     @GetMapping("/members/{id}")
-    public Member getMember(@PathVariable Long id) {
+    public MemberDto getMember(@PathVariable Long id) {
+
         return memberReadService.getMember(id);
     }
 }

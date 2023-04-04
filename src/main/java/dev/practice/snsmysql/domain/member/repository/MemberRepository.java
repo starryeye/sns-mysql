@@ -15,6 +15,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+/**
+ * TODO : JPA 로 변경
+ */
 @Repository
 @RequiredArgsConstructor
 public class MemberRepository {
@@ -39,7 +42,7 @@ public class MemberRepository {
                 .email(resultSet.getString("email"))
                 .nickname(resultSet.getString("nickname"))
                 .birthday(resultSet.getObject("birthday", LocalDate.class))
-                .createdAt(resultSet.getObject("created_at", LocalDateTime.class))
+                .createdAt(resultSet.getObject("createdAt", LocalDateTime.class)) //columnLabel.. DB 에서 컬럼명이 create_at 이 아니고 createAt 이라서..
                 .build();
 
         var member = namedParameterJdbcTemplate.queryForObject(sql, param, rowMapper);

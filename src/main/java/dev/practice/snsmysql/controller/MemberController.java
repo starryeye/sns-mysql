@@ -26,4 +26,10 @@ public class MemberController {
 
         return memberReadService.getMember(id);
     }
+
+    @PutMapping("/members/{id}")
+    public MemberDto changeNickname(@PathVariable Long id, @RequestBody String nickname) {
+        memberWriteService.changeNickname(id, nickname);
+        return memberReadService.getMember(id);
+    }
 }

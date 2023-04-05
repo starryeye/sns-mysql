@@ -59,7 +59,7 @@ public class MemberRepository {
          * 반환값은 id를 담아서 반환한다.
          */
 
-        if(member.getId() == null) {
+        if(member.getId() == null) { //null 체크 말고 findbyId 로 체크 고려
             return insert(member);
         }
         return update(member);

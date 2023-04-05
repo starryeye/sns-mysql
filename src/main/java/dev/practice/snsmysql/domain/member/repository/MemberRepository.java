@@ -17,6 +17,8 @@ import java.util.Optional;
 
 /**
  * TODO : JPA 로 변경
+ *
+ * TODO: SqlParameterSource 의 3가지 구현체 공부 해볼 것
  */
 @Repository
 @RequiredArgsConstructor
@@ -25,6 +27,14 @@ public class MemberRepository {
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     private static final String TABLE_NAME = "Member";
+
+    private static final RowMapper<Member> rowMapper = (ResultSet resultSet, int rowNum) -> Member.builder()
+            .id(resultSet.getLong("id"))
+            .email(resultSet.getString("email"))
+            .nickname(resultSet.getString("nickname"))
+            .birthday(resultSet.getObject("birthday", LocalDate.class))
+            .createdAt(resultSet.getObject("createdAt", LocalDateTime.class)) //columnLabel.. DB 에서 컬럼명이 create_at 이 아니고 createAt 이라서..
+            .build();
 
     public Optional<Member> findById(Long id) {
         /**
@@ -37,13 +47,6 @@ public class MemberRepository {
 
         var param = new MapSqlParameterSource()
                 .addValue("id", id);
-        RowMapper<Member> rowMapper = (ResultSet resultSet, int rowNum) -> Member.builder()
-                .id(resultSet.getLong("id"))
-                .email(resultSet.getString("email"))
-                .nickname(resultSet.getString("nickname"))
-                .birthday(resultSet.getObject("birthday", LocalDate.class))
-                .createdAt(resultSet.getObject("createdAt", LocalDateTime.class)) //columnLabel.. DB 에서 컬럼명이 create_at 이 아니고 createAt 이라서..
-                .build();
 
         var member = namedParameterJdbcTemplate.queryForObject(sql, param, rowMapper);
 

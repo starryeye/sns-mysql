@@ -1,11 +1,14 @@
 package dev.practice.snsmysql.controller;
 
 import dev.practice.snsmysql.domain.member.dto.MemberDto;
+import dev.practice.snsmysql.domain.member.dto.MemberNicknameHistoryDto;
 import dev.practice.snsmysql.domain.member.dto.RegisterMemberCommand;
 import dev.practice.snsmysql.domain.member.service.MemberReadService;
 import dev.practice.snsmysql.domain.member.service.MemberWriteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,5 +34,10 @@ public class MemberController {
     public MemberDto changeNickname(@PathVariable Long id, @RequestBody String nickname) {
         memberWriteService.changeNickname(id, nickname);
         return memberReadService.getMember(id);
+    }
+
+    @GetMapping("/members/{memberId}/nickname-histories")
+    public List<MemberNicknameHistoryDto> getMemberNicknameHistories(@PathVariable Long memberId) {
+        return memberReadService.getMemberNicknameHistories(memberId);
     }
 }

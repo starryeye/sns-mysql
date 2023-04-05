@@ -2,6 +2,8 @@ package dev.practice.snsmysql.domain.member.service;
 
 import dev.practice.snsmysql.domain.member.dto.RegisterMemberCommand;
 import dev.practice.snsmysql.domain.member.entity.Member;
+import dev.practice.snsmysql.domain.member.entity.MemberNicknameHistory;
+import dev.practice.snsmysql.domain.member.repository.MemberNicknameHistoryRepository;
 import dev.practice.snsmysql.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class MemberWriteService {
 
     private final MemberRepository memberRepository;
+    private final MemberNicknameHistoryRepository memberNicknameHistoryRepository;
 
     public Member register(RegisterMemberCommand command) {
         /**
@@ -30,18 +33,31 @@ public class MemberWriteService {
                 .birthday(command.birthday())
                 .build();
 
-        return memberRepository.save(member);
+        var savedMember = memberRepository.save(member);
+        saveMemberNicknameHistory(savedMember); //최초 이력 저장
+
+        return savedMember;
     }
 
     public void changeNickname(Long memberId, String nickname) {
         /**
          * 목표 - 회원의 닉네임을 변경한다.
          * 1. 회원의 이름을 변경
-         * 2. 변경 내역을 저장한다.
+         * 2. 변경 내역(바꾼 이름)을 저장한다.
          */
 
         var member = memberRepository.findById(memberId).orElseThrow();
         member.changeNickname(nickname);
         memberRepository.save(member);
+
+        saveMemberNicknameHistory(member);
+    }
+
+    private void saveMemberNicknameHistory(Member member) {
+        var memberNicknameHistory = MemberNicknameHistory.builder()
+                .memberId(member.getId())
+                .nickname(member.getNickname())
+                .build();
+        memberNicknameHistoryRepository.save(memberNicknameHistory);
     }
 }

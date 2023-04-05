@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -51,6 +52,18 @@ public class MemberRepository {
         var member = namedParameterJdbcTemplate.queryForObject(sql, param, rowMapper);
 
         return Optional.ofNullable(member);
+    }
+
+    public List<Member> findAllByIdIn(List<Long> ids) {
+
+        //List 를 넘겨줄 땐 항상 빈 리스트를 고려해야 한다.
+        if(ids.isEmpty()) //빈 리스트를 넘겨주면 bad sql grammar 에러가 발생함
+            return List.of();
+
+        var sql = String.format("SELECT * FROM %s WHERE id IN (:ids)", TABLE_NAME);
+        var param = new MapSqlParameterSource()
+                .addValue("ids", ids);
+        return namedParameterJdbcTemplate.query(sql, param, rowMapper);
     }
 
     public Member save(Member member) {

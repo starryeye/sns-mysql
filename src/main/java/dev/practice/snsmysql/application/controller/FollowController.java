@@ -1,4 +1,4 @@
-package dev.practice.snsmysql.controller;
+package dev.practice.snsmysql.application.controller;
 
 import dev.practice.snsmysql.application.usecase.CreateFollowMemberUsecase;
 import lombok.RequiredArgsConstructor;

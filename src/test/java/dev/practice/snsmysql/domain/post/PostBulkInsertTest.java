@@ -4,6 +4,8 @@ import dev.practice.snsmysql.domain.post.entity.Post;
 import dev.practice.snsmysql.domain.post.repository.PostRepository;
 import dev.practice.snsmysql.util.PostFixtureFactory;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.StopWatch;
@@ -11,6 +13,7 @@ import org.springframework.util.StopWatch;
 import java.time.LocalDate;
 import java.util.stream.IntStream;
 
+@Execution(ExecutionMode.SAME_THREAD) //테스트가 여러개라도 하나씩 수행
 @SpringBootTest
 public class PostBulkInsertTest {
 

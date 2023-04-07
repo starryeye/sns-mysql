@@ -52,6 +52,34 @@ public class PostRepository {
         throw new UnsupportedOperationException("Post 는 update 를 지원하지 않습니다.");
     }
 
+    /**
+     * Test 용도인 벌크 데이터 저장 기능
+     *
+     * 기존에 insert 메서드는 여러번 호출하면 INSERT 쿼리가 하나하나 실행된다.
+     * 이를 bulk 로 하나의 쿼리로 실행하도록 만든 메서드이다.
+     *
+     * SqlParameterSource[] 로 여러개의 데이터를 바인딩 할 수 있다.
+     *
+     * VALUES (~,~,~,~), (~,~,~,~), (~,~,~,~) 와 같은 형태로 쿼리가 실행된다.
+     *
+     * JPA 에서는 @BatchSize 를 사용하면 된다.
+     * 하지만, Auto Increment 를 사용하는 경우에는 @BatchSize 를 사용하여도 쿼리가 여러번 실행된다.
+     */
+    public void bulkInsert(List<Post> posts) {
+        var sql = String.format(
+                """
+                INSERT INTO %s (memberId, contents, createdDate, createdAt)
+                VALUES (:memberId, :contents, :createdDate, :createdAt)
+                """, TABLE_NAME
+        ); //language=MySQL
+
+        SqlParameterSource[] params = posts.stream()
+                .map(BeanPropertySqlParameterSource::new)
+                .toArray(SqlParameterSource[]::new);
+
+        namedParameterJdbcTemplate.batchUpdate(sql, params);
+    }
+
     private Post insert(Post post) {
         SimpleJdbcInsert insert = new SimpleJdbcInsert(namedParameterJdbcTemplate.getJdbcTemplate())
                 .withTableName(TABLE_NAME)

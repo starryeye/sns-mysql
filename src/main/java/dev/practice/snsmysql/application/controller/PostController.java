@@ -9,6 +9,7 @@ import dev.practice.snsmysql.domain.post.service.PostWriteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,12 +32,15 @@ public class PostController {
         return postReadService.getDailyPostCounts(request);
     }
 
+    /**
+     * 특정 회원의 게시물 목록을 조회한다.
+     * pageable 에 데이터를 넣을 때, "createdDate,desc" 형식으로 넣어야 한다.
+     */
     @GetMapping("/members/{memberId}")
     public Page<PostDto> getPosts(
             @PathVariable Long memberId,
-            @RequestParam Integer page,
-            @RequestParam Integer size
+            Pageable pageable
     ) {
-        return postReadService.getPosts(memberId, PageRequest.of(page, size));
+        return postReadService.getPosts(memberId, pageable);
     }
 }

@@ -1,5 +1,6 @@
 package dev.practice.snsmysql.domain.post.repository;
 
+import dev.practice.snsmysql.domain.PageHelper;
 import dev.practice.snsmysql.domain.post.dto.DailyPostCount;
 import dev.practice.snsmysql.domain.post.dto.DailyPostCountRequest;
 import dev.practice.snsmysql.domain.post.entity.Post;
@@ -66,9 +67,10 @@ public class PostRepository {
                 SELECT *
                 FROM %s
                 WHERE memberId = :memberId
+                ORDER BY %s
                 LIMIT :size
                 OFFSET :offset
-                """, TABLE_NAME
+                """, TABLE_NAME, PageHelper.orderBy(pageable.getSort())
         ); //language=MySQL
 
         var params = new MapSqlParameterSource()

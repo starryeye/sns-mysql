@@ -8,6 +8,7 @@ import dev.practice.snsmysql.domain.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public class PostReadService {
     }
 
     //TODO: Spring Data JPA 로 변경, PageRequest -> Pageable
-    public Page<PostDto> getPosts(Long memberId, PageRequest request) {
+    public Page<PostDto> getPosts(Long memberId, Pageable request) {
 
         var posts = postRepository.findAllByMemberId(memberId, request);
 

@@ -1,5 +1,6 @@
 package dev.practice.snsmysql.application.controller;
 
+import dev.practice.snsmysql.application.usecase.GetTimelinePostsUsecase;
 import dev.practice.snsmysql.domain.post.dto.DailyPostCount;
 import dev.practice.snsmysql.domain.post.dto.DailyPostCountRequest;
 import dev.practice.snsmysql.domain.post.dto.PostCommand;
@@ -23,6 +24,7 @@ public class PostController {
 
     private final PostWriteService postWriteService;
     private final PostReadService postReadService;
+    private final GetTimelinePostsUsecase getTimelinePostsUsecase;
 
     @PostMapping
     public Long create(PostCommand postCommand) {
@@ -57,5 +59,16 @@ public class PostController {
             @ModelAttribute CursorRequest cursorRequest
     ) {
         return postReadService.getPosts(memberId, cursorRequest);
+    }
+
+    /**
+     * timeline 기능, cursor 기반 pagination
+     */
+    @GetMapping("/members/{memberId}/timeline")
+    public PageCursor<PostDto> getTimelinePosts(
+            @PathVariable Long memberId,
+            @ModelAttribute CursorRequest cursorRequest
+    ) {
+        return getTimelinePostsUsecase.execute(memberId, cursorRequest);
     }
 }

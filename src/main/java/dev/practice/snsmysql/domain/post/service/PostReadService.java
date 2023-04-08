@@ -52,10 +52,18 @@ public class PostReadService {
         var posts = findAllBy(memberId, request);
 
         //추출한 posts 에서 마지막 id 를 추출한다.
-        var lastKey = posts.stream()
-                .mapToLong(Post::getId)
-                .min()
-                .orElse(CursorRequest.NONE_KEY);
+        var lastKey = getLastKey(posts);
+
+        //다음 조회에서 사용할 CursorRequest 와 조회한 posts 를 PageCursor 로 반환한다.
+        return new PageCursor<>(request.next(lastKey), posts.stream().map(this::toDto).toList());
+    }
+
+    public PageCursor<PostDto> getPosts(List<Long> memberIds, CursorRequest request) {
+
+        var posts = findAllBy(memberIds, request);
+
+        //추출한 posts 에서 마지막 id 를 추출한다.
+        var lastKey = getLastKey(posts);
 
         //다음 조회에서 사용할 CursorRequest 와 조회한 posts 를 PageCursor 로 반환한다.
         return new PageCursor<>(request.next(lastKey), posts.stream().map(this::toDto).toList());
@@ -68,6 +76,22 @@ public class PostReadService {
         }
 
         return postRepository.findAllByMemberIdAndOrderByIdDesc(memberId, request.size());
+    }
+
+    private List<Post> findAllBy(List<Long> memberIds, CursorRequest request) {
+
+        if(request.hasKey()) {
+            return postRepository.findAllByLessThanIdAndInMemberIdsAndOrderByIdDesc(request.key(), memberIds, request.size());
+        }
+
+        return postRepository.findAllByInMemberIdsAndOrderByIdDesc(memberIds, request.size());
+    }
+
+    private static long getLastKey(List<Post> posts) {
+        return posts.stream()
+                .mapToLong(Post::getId)
+                .min()
+                .orElse(CursorRequest.NONE_KEY);
     }
 
     private PostDto toDto(Post post) {

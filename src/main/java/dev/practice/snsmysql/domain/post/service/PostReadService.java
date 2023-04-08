@@ -5,6 +5,8 @@ import dev.practice.snsmysql.domain.post.dto.DailyPostCountRequest;
 import dev.practice.snsmysql.domain.post.dto.PostDto;
 import dev.practice.snsmysql.domain.post.entity.Post;
 import dev.practice.snsmysql.domain.post.repository.PostRepository;
+import dev.practice.snsmysql.util.CursorRequest;
+import dev.practice.snsmysql.util.PageCursor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,9 +41,33 @@ public class PostReadService {
     //TODO: Spring Data JPA 로 변경, PageRequest -> Pageable
     public Page<PostDto> getPosts(Long memberId, Pageable request) {
 
+        //TODO: 리턴 값을 Page<PostDto> 로 변경 고려
         var posts = postRepository.findAllByMemberId(memberId, request);
 
         return posts.map(this::toDto);
+    }
+
+    public PageCursor<PostDto> getPosts(Long memberId, CursorRequest request) {
+
+        var posts = findAllBy(memberId, request);
+
+        //추출한 posts 에서 마지막 id 를 추출한다.
+        var lastKey = posts.stream()
+                .mapToLong(Post::getId)
+                .min()
+                .orElse(CursorRequest.NONE_KEY);
+
+        //다음 조회에서 사용할 CursorRequest 와 조회한 posts 를 PageCursor 로 반환한다.
+        return new PageCursor<>(request.next(lastKey), posts.stream().map(this::toDto).toList());
+    }
+
+    private List<Post> findAllBy(Long memberId, CursorRequest request) {
+
+        if(request.hasKey()) {
+            return postRepository.findAllByLessThanIdAndMemberIdAndOrderByIdDesc(request.key(), memberId, request.size());
+        }
+
+        return postRepository.findAllByMemberIdAndOrderByIdDesc(memberId, request.size());
     }
 
     private PostDto toDto(Post post) {

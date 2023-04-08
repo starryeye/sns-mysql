@@ -6,6 +6,8 @@ import dev.practice.snsmysql.domain.post.dto.PostCommand;
 import dev.practice.snsmysql.domain.post.dto.PostDto;
 import dev.practice.snsmysql.domain.post.service.PostReadService;
 import dev.practice.snsmysql.domain.post.service.PostWriteService;
+import dev.practice.snsmysql.util.CursorRequest;
+import dev.practice.snsmysql.util.PageCursor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,6 +35,8 @@ public class PostController {
     }
 
     /**
+     * offset 기반 pagination
+     *
      * 특정 회원의 게시물 목록을 조회한다.
      * pageable 에 데이터를 넣을 때, "createdDate,desc" 형식으로 넣어야 한다.
      */
@@ -42,5 +46,16 @@ public class PostController {
             Pageable pageable
     ) {
         return postReadService.getPosts(memberId, pageable);
+    }
+
+    /**
+     * cursor 기반 pagination
+     */
+    @GetMapping("/members/{memberId}/by-cursor")
+    public PageCursor<PostDto> getPostsByCursor(
+            @PathVariable Long memberId,
+            @ModelAttribute CursorRequest cursorRequest
+    ) {
+        return postReadService.getPosts(memberId, cursorRequest);
     }
 }

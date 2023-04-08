@@ -1,4 +1,4 @@
-package dev.practice.snsmysql.domain;
+package dev.practice.snsmysql.util;
 
 import org.springframework.data.domain.Sort;
 

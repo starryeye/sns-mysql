@@ -1,13 +1,12 @@
 package dev.practice.snsmysql.domain.post.repository;
 
-import dev.practice.snsmysql.domain.PageHelper;
+import dev.practice.snsmysql.util.PageHelper;
 import dev.practice.snsmysql.domain.post.dto.DailyPostCount;
 import dev.practice.snsmysql.domain.post.dto.DailyPostCountRequest;
 import dev.practice.snsmysql.domain.post.entity.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -60,6 +59,7 @@ public class PostRepository {
         return namedParameterJdbcTemplate.query(sql, params, DAILY_POST_COUNT_MAPPER);
     }
 
+    //offset 기반 페이징 처리 방식
     public Page<Post> findAllByMemberId(Long memberId, Pageable pageable) {
 
         var sql = String.format(
@@ -96,6 +96,45 @@ public class PostRepository {
                 .addValue("memberId", memberId);
 
         return namedParameterJdbcTemplate.queryForObject(sql, param, Long.class);
+    }
+
+    //Cursor 기반 페이징 처리 방식, 최초 용도
+    public List<Post> findAllByMemberIdAndOrderByIdDesc(Long memberId, int size) {
+        var sql = String.format(
+                """
+                SELECT *
+                FROM %s
+                WHERE memberId = :memberId
+                ORDER BY id DESC
+                LIMIT :size
+                """, TABLE_NAME
+        );
+
+        var params = new MapSqlParameterSource()
+                .addValue("memberId", memberId)
+                .addValue("size", size);
+
+        return namedParameterJdbcTemplate.query(sql, params, ROW_MAPPER);
+    }
+
+    //Cursor 기반 페이징 처리 방식, 최초가 아닐때는 key 값을 이용하여 조회
+    public List<Post> findAllByLessThanIdAndMemberIdAndOrderByIdDesc(Long id, Long memberId, int size) {
+        var sql = String.format(
+                """
+                SELECT *
+                FROM %s
+                WHERE memberId = :memberId and id < :id
+                ORDER BY id DESC
+                LIMIT :size
+                """, TABLE_NAME
+        );
+
+        var params = new MapSqlParameterSource()
+                .addValue("memberId", memberId)
+                .addValue("id", id)
+                .addValue("size", size);
+
+        return namedParameterJdbcTemplate.query(sql, params, ROW_MAPPER);
     }
 
     public Post save(Post post) {

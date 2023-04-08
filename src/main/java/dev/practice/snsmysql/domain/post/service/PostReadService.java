@@ -2,8 +2,12 @@ package dev.practice.snsmysql.domain.post.service;
 
 import dev.practice.snsmysql.domain.post.dto.DailyPostCount;
 import dev.practice.snsmysql.domain.post.dto.DailyPostCountRequest;
+import dev.practice.snsmysql.domain.post.dto.PostDto;
+import dev.practice.snsmysql.domain.post.entity.Post;
 import dev.practice.snsmysql.domain.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,5 +33,21 @@ public class PostReadService {
          */
 
         return postRepository.groupByCreatedDate(request);
+    }
+
+    //TODO: Spring Data JPA 로 변경, PageRequest -> Pageable
+    public Page<PostDto> getPosts(Long memberId, PageRequest request) {
+
+        var posts = postRepository.findAllByMemberId(memberId, request);
+
+        return posts.map(this::toDto);
+    }
+
+    private PostDto toDto(Post post) {
+        return new PostDto(
+                post.getId(),
+                post.getMemberId(),
+                post.getContents(),
+                post.getCreatedDate());
     }
 }

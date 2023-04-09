@@ -14,8 +14,16 @@ public class FollowReadService {
 
     private final FollowRepository followRepository;
 
-    public List<FollowDto> getFollowList(Long memberId) {
+    // memberId 가 팔로우한 회원들을 조회
+    public List<FollowDto> getFollowingList(Long memberId) {
         return followRepository.findAllByFromMemberId(memberId).stream()
+                .map(this::toDto)
+                .toList();
+    }
+
+    // memberId 가 팔로워인 회원들을 조회
+    public List<FollowDto> getFollowerList(Long memberId) {
+        return followRepository.findAllByToMemberId(memberId).stream()
                 .map(this::toDto)
                 .toList();
     }

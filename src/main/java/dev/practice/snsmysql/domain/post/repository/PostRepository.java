@@ -98,6 +98,25 @@ public class PostRepository {
         return namedParameterJdbcTemplate.queryForObject(sql, param, Long.class);
     }
 
+    public List<Post> findAllByInIds(List<Long> ids) {
+
+        if(ids.isEmpty())
+            return List.of();
+
+        var sql = String.format(
+                """
+                SELECT *
+                FROM %s
+                WHERE id in (:ids)
+                """, TABLE_NAME
+        );
+
+        var params = new MapSqlParameterSource()
+                .addValue("ids", ids);
+
+        return namedParameterJdbcTemplate.query(sql, params, ROW_MAPPER);
+    }
+
     //Cursor 기반 페이징 처리 방식, 최초 용도
     public List<Post> findAllByMemberIdAndOrderByIdDesc(Long memberId, int size) {
         var sql = String.format(
@@ -141,7 +160,7 @@ public class PostRepository {
         return namedParameterJdbcTemplate.query(sql, params, ROW_MAPPER);
     }
 
-    //Cursor 기반 페이징 처리 방식, 최초가 아닐때는 key 값을 이용하여 조회
+    //Cursor 기반 페이징 처리 방식, 최초가 아닐때는 key 값(id)을 이용하여 조회
     public List<Post> findAllByLessThanIdAndMemberIdAndOrderByIdDesc(Long id, Long memberId, int size) {
         var sql = String.format(
                 """

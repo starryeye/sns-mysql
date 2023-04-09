@@ -1,5 +1,6 @@
 package dev.practice.snsmysql.application.controller;
 
+import dev.practice.snsmysql.application.usecase.CreatePostUsecase;
 import dev.practice.snsmysql.application.usecase.GetTimelinePostsUsecase;
 import dev.practice.snsmysql.domain.post.dto.DailyPostCount;
 import dev.practice.snsmysql.domain.post.dto.DailyPostCountRequest;
@@ -23,12 +24,16 @@ import java.util.List;
 public class PostController {
 
     private final PostWriteService postWriteService;
-    private final PostReadService postReadService;
     private final GetTimelinePostsUsecase getTimelinePostsUsecase;
+    private final PostReadService postReadService;
+
+    //fan out on write, 게시물 등록 및 타임라인 등록
+    private final CreatePostUsecase createPostUsecase;
 
     @PostMapping
     public Long create(PostCommand postCommand) {
-        return postWriteService.create(postCommand);
+        //return postWriteService.create(postCommand); //fan out on read
+        return createPostUsecase.execute(postCommand); //fan out on write
     }
 
     @GetMapping("/daily-post-counts")
@@ -69,6 +74,7 @@ public class PostController {
             @PathVariable Long memberId,
             @ModelAttribute CursorRequest cursorRequest
     ) {
-        return getTimelinePostsUsecase.execute(memberId, cursorRequest);
+//        return getTimelinePostsUsecase.execute(memberId, cursorRequest); //fan out on read
+        return getTimelinePostsUsecase.executeByTimeline(memberId, cursorRequest); //fan out on write
     }
 }

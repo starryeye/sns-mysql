@@ -69,6 +69,12 @@ public class PostReadService {
         return new PageCursor<>(request.next(lastKey), posts.stream().map(this::toDto).toList());
     }
 
+    public List<PostDto> getPosts(List<Long> ids) {
+        return postRepository.findAllByInIds(ids).stream()
+                .map(this::toDto)
+                .toList();
+    }
+
     private List<Post> findAllBy(Long memberId, CursorRequest request) {
 
         if(request.hasKey()) {

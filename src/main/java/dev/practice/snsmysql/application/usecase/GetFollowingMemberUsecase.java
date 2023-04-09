@@ -22,7 +22,7 @@ public class GetFollowingMemberUsecase {
          * List 를 순회하면서 Member 를 조회하여 반환
          */
 
-        var followList = followReadService.getFollowList(memberId);
+        var followList = followReadService.getFollowingList(memberId);
 
         var ids = followList.stream().map(FollowDto::toMemberId).toList();
 

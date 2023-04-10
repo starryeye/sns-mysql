@@ -2,7 +2,6 @@ package dev.practice.snsmysql.domain.follow.repository;
 
 import dev.practice.snsmysql.domain.follow.entity.Follow;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;

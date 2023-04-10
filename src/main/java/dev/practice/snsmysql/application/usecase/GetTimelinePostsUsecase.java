@@ -3,7 +3,7 @@ package dev.practice.snsmysql.application.usecase;
 import dev.practice.snsmysql.domain.follow.dto.FollowDto;
 import dev.practice.snsmysql.domain.follow.service.FollowReadService;
 import dev.practice.snsmysql.domain.post.dto.PostDto;
-import dev.practice.snsmysql.domain.post.entity.Timeline;
+import dev.practice.snsmysql.domain.post.dto.TimelineDto;
 import dev.practice.snsmysql.domain.post.service.PostReadService;
 import dev.practice.snsmysql.domain.post.service.TimelineReadService;
 import dev.practice.snsmysql.util.CursorRequest;
@@ -56,7 +56,7 @@ public class GetTimelinePostsUsecase {
         var pagedTimelineList = timelineReadService.getTimelineList(memberId, request);
 
         var postIdList = pagedTimelineList.contents().stream()
-                .map(Timeline::getPostId)
+                .map(TimelineDto::postId)
                 .toList();
 
         var postList = postReadService.getPosts(postIdList);

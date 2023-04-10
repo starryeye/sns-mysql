@@ -1,5 +1,6 @@
 package dev.practice.snsmysql.domain.post.service;
 
+import dev.practice.snsmysql.domain.post.dto.TimelineDto;
 import dev.practice.snsmysql.domain.post.entity.Timeline;
 import dev.practice.snsmysql.domain.post.repository.TimelineRepository;
 import dev.practice.snsmysql.util.CursorRequest;
@@ -11,8 +12,6 @@ import java.util.List;
 
 /**
  * fan out on write 방식을 위한 타임라인 조회 서비스
- *
- * TODO: Timeline 반환 TimelineDto 로 변경
  */
 @Service
 @RequiredArgsConstructor
@@ -20,12 +19,12 @@ public class TimelineReadService {
 
     private final TimelineRepository timelineRepository;
 
-    public PageCursor<Timeline> getTimelineList(Long memberId, CursorRequest request) {
+    public PageCursor<TimelineDto> getTimelineList(Long memberId, CursorRequest request) {
         var timelineList = findAllBy(memberId, request);
 
         var lastKey = getLastKey(timelineList);
 
-        return new PageCursor<>(request.next(lastKey), timelineList);
+        return new PageCursor<>(request.next(lastKey), timelineList.stream().map(this::toDto).toList());
     }
 
     private List<Timeline> findAllBy(Long memberId, CursorRequest request) {
@@ -44,4 +43,12 @@ public class TimelineReadService {
                 .orElse(CursorRequest.NONE_KEY);
     }
 
+    private TimelineDto toDto(Timeline timeline) {
+        return new TimelineDto(
+                timeline.getId(),
+                timeline.getMemberId(),
+                timeline.getPostId(),
+                timeline.getCreatedAt()
+        );
+    }
 }

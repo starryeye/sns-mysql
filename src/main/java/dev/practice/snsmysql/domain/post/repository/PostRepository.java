@@ -35,6 +35,7 @@ public class PostRepository {
                     .content(rs.getString("contents"))
                     .createdDate(rs.getObject("createdDate", LocalDate.class))
                     .createdAt(rs.getObject("createdAt", LocalDateTime.class))
+                    .likeCount(rs.getLong("likeCount"))
                     .build();
 
     private static final RowMapper<DailyPostCount> DAILY_POST_COUNT_MAPPER =

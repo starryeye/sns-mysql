@@ -1,5 +1,6 @@
 package dev.practice.snsmysql.application.controller;
 
+import dev.practice.snsmysql.application.usecase.CreatePostLikeUsecase;
 import dev.practice.snsmysql.application.usecase.CreatePostUsecase;
 import dev.practice.snsmysql.application.usecase.GetTimelinePostsUsecase;
 import dev.practice.snsmysql.domain.post.dto.DailyPostCount;
@@ -28,6 +29,9 @@ public class PostController {
 
     //fan out on write, 게시물 등록 및 타임라인 등록
     private final CreatePostUsecase createPostUsecase;
+
+    //좋아요 기능, PostLike Table 에 데이터를 등록한다.
+    private final CreatePostLikeUsecase createPostLikeUsecase;
 
     @PostMapping
     public Long create(PostCommand postCommand) {
@@ -80,9 +84,27 @@ public class PostController {
     /**
      * 게시글 좋아요 기능
      */
-    @PostMapping("/{postId}/like")
+    @PostMapping("/{postId}/like/v1")
     public void likePost(@PathVariable Long postId) {
 //        postWriteService.likePost(postId); //비관적 락
         postWriteService.likePostByOptimisticLock(postId); //낙관적 락
     }
+
+    /**
+     * 게시글 좋아요 기능, PostLike 테이블에 데이터를 저장하는 방식
+     */
+    @PostMapping("/{postId}/like/v2")
+    public void likePost(@PathVariable Long postId, @RequestParam Long memberId) {
+        createPostLikeUsecase.execute(postId, memberId);
+    }
+
+    /**
+     * TODO: 현재 게시물 조회에서 좋아요 수는 likeCount 필드를 바라봐서..
+     * 좋아요 방식을 v2로 동작시키면 조회 때 좋아요 수가 제대로 나오지 않는다.
+     * v2 의 좋아요 수는 PostLike 테이블에서 조회하는 것이 맞다.
+     * 그러나, 조회 때마다 PostLike 테이블에 Count 쿼리를 날리는 것은 조회 성능에 굉장히 안좋다.
+     *
+     * 그래서, 주기적 비동기로 PostLike 테이블에 Count 쿼리를 날려서..
+     * Post 테이블의 likeCount 필드를 업데이트 하는 방식을 사용하면 좋을 것 같다.
+     */
 }

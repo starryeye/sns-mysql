@@ -20,6 +20,11 @@ public class PostReadService {
 
     private final PostRepository postRepository;
 
+    public PostDto getPost(Long postId) {
+        var post = postRepository.findById(postId, false).orElseThrow();
+        return toDto(post);
+    }
+
     /**
      * 특정 회원의 특정 기간 동안의 게시물 수를 조회한다.
      */

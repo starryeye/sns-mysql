@@ -21,7 +21,7 @@ public class Post {
     private final Long memberId; //게시물 작성자
     private final String contents;
     private final LocalDate createdDate; //게시물 작성 날짜
-    private final Long likeCount; //좋아요 수
+    private Long likeCount; //좋아요 수
 
     private final LocalDateTime createdAt; //Entity 생성 시간
 
@@ -33,5 +33,9 @@ public class Post {
         this.createdDate = createdDate == null ? LocalDate.now() : createdDate;
         this.likeCount = likeCount == null ? 0L : likeCount; //조회 시점에 null 이면 0으로 채워 진다.
         this.createdAt = createdAt == null ? LocalDateTime.now() : createdAt;
+    }
+
+    public void increaseLikeCount() {
+        this.likeCount++;
     }
 }

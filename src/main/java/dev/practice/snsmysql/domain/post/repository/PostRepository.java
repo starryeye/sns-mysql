@@ -19,6 +19,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -97,6 +98,23 @@ public class PostRepository {
                 .addValue("memberId", memberId);
 
         return namedParameterJdbcTemplate.queryForObject(sql, param, Long.class);
+    }
+
+    public Optional<Post> findById(Long postId) {
+        var sql = String.format(
+                """
+                SELECT *
+                FROM %s
+                WHERE id = :id
+                """, TABLE_NAME
+        );
+
+        var param = new MapSqlParameterSource()
+                .addValue("id", postId);
+
+        Post post = namedParameterJdbcTemplate.queryForObject(sql, param, ROW_MAPPER);
+
+        return Optional.ofNullable(post);
     }
 
     public List<Post> findAllByInIds(List<Long> ids) {
@@ -211,7 +229,8 @@ public class PostRepository {
             return insert(post);
         }
 
-        throw new UnsupportedOperationException("Post 는 update 를 지원하지 않습니다.");
+//        throw new UnsupportedOperationException("Post 는 update 를 지원하지 않습니다.");
+        return update(post);
     }
 
     /**
@@ -258,5 +277,25 @@ public class PostRepository {
                 .createdDate(post.getCreatedDate())
                 .createdAt(post.getCreatedAt())
                 .build();
+    }
+
+    private Post update(Post post) {
+        var sql = String.format(
+                """
+                UPDATE %s SET
+                    memberId = :memberId,
+                    contents = :contents,
+                    createdDate = :createdDate,
+                    likeCount = :likeCount,
+                    createdAt = :createdAt
+                WHERE id = :id
+                """, TABLE_NAME
+        );
+
+        var params = new BeanPropertySqlParameterSource(post);
+
+        namedParameterJdbcTemplate.update(sql, params);
+
+        return post;
     }
 }

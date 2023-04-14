@@ -76,4 +76,12 @@ public class PostController {
 //        return getTimelinePostsUsecase.execute(memberId, cursorRequest); //fan out on read
         return getTimelinePostsUsecase.executeByTimeline(memberId, cursorRequest); //fan out on write
     }
+
+    /**
+     * 게시글 좋아요 기능
+     */
+    @PostMapping("/{postId}/like")
+    public void likePost(@PathVariable Long postId) {
+        postWriteService.likePost(postId);
+    }
 }

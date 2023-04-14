@@ -105,7 +105,8 @@ public class PostReadService {
                 post.getMemberId(),
                 post.getContents(),
                 post.getCreatedDate(),
-                post.getLikeCount()
+                post.getLikeCount(),
+                post.getVersion()
         );
     }
 }

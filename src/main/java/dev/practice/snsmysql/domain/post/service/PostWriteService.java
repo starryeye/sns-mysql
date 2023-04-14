@@ -33,4 +33,17 @@ public class PostWriteService {
         //두번 요청 보낼 땐, swagger 에서는 탭을 두개를 띄어놓고하거나 postman 이나 터미널을 사용하자.
         postRepository.save(post);
     }
+
+    /**
+     * Optimistic Locking 을 사용하여 동시성 문제를 해결한다.
+     * 낙관적 락 방법을 사용하기 때문에 select for update 를 사용하지 않는다.
+     * 따라서, @Transactional 을 사용하지 않는다.
+     */
+    public void likePostByOptimisticLock(Long postId) {
+
+        var post = postRepository.findById(postId, false).orElseThrow();
+        post.increaseLikeCount(); //여기에 suspend(thread) 중단점 걸고 두번 요청하면 동시성 테스트 할 수 있다.
+        //두번 요청 보낼 땐, swagger 에서는 탭을 두개를 띄어놓고하거나 postman 이나 터미널을 사용하자.
+        postRepository.save(post);
+    }
 }

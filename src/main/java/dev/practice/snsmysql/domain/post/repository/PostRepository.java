@@ -5,6 +5,7 @@ import dev.practice.snsmysql.domain.post.dto.DailyPostCount;
 import dev.practice.snsmysql.domain.post.dto.DailyPostCountRequest;
 import dev.practice.snsmysql.domain.post.entity.Post;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -37,6 +38,7 @@ public class PostRepository {
                     .createdDate(rs.getObject("createdDate", LocalDate.class))
                     .createdAt(rs.getObject("createdAt", LocalDateTime.class))
                     .likeCount(rs.getLong("likeCount"))
+                    .version(rs.getLong("version"))
                     .build();
 
     private static final RowMapper<DailyPostCount> DAILY_POST_COUNT_MAPPER =
@@ -299,14 +301,21 @@ public class PostRepository {
                     contents = :contents,
                     createdDate = :createdDate,
                     likeCount = :likeCount,
-                    createdAt = :createdAt
-                WHERE id = :id
+                    createdAt = :createdAt,
+                    version = :version + 1
+                WHERE id = :id and version = :version
                 """, TABLE_NAME
         );
+        //optimistic locking 을 위해서 version 컬럼을 추가하고, update 시에 version 을 1 증가시킨다.
+        //동시에 같은 데이터를 수정하면 version 이 동일하게 조회되고 두번째 update 는 실패한다.
 
         var params = new BeanPropertySqlParameterSource(post);
 
-        namedParameterJdbcTemplate.update(sql, params);
+        var updatedCount = namedParameterJdbcTemplate.update(sql, params);
+
+        if(updatedCount == 0) { //optimistic locking 실패, updatedCount 가 0 이면 수정한 데이터가 없다는 의미이다.
+            throw new OptimisticLockingFailureException("Post 갱신 실패, 이미 수정되었습니다."); //TODO: 새로운 Exception 을 만들고 catch 하여 실패 처리를 따로 개발
+        }
 
         return post;
     }

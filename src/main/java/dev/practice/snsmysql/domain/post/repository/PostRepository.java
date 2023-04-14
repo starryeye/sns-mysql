@@ -100,7 +100,15 @@ public class PostRepository {
         return namedParameterJdbcTemplate.queryForObject(sql, param, Long.class);
     }
 
-    public Optional<Post> findById(Long postId) {
+    /**
+     * 동시성 문제를 해결하기 위해서 select for update 를 한다.
+     * 모든 조회에 대해서 select for update 를 하면 성능이 떨어진다.
+     *
+     * 여기서는 파라미터를 받아서 락 여부를 제어하겠다..
+     * JPA 에서는 어노테이션을 통해서 해결할 수 있다.
+     * TODO: @Transactional(readOnly = false), @Lock(LockModeType.PESSIMISTIC_WRITE) 찾아보기
+     */
+    public Optional<Post> findById(Long postId, Boolean requiredLock) {
         var sql = String.format(
                 """
                 SELECT *
@@ -108,6 +116,10 @@ public class PostRepository {
                 WHERE id = :id
                 """, TABLE_NAME
         );
+
+        if(requiredLock) {
+            sql += "FOR UPDATE";
+        }
 
         var param = new MapSqlParameterSource()
                 .addValue("id", postId);

@@ -1,12 +1,12 @@
-# docker-compose -p sns-db up -d
+# docker-compose -p sns-db-jpa up -d
 version: "3.7"
 services:
-  sns-db:
+  sns-db-jpa:
     image: mysql:8.0
     ports:
       - "3306:3306"
     environment:
-      - MYSQL_DATABASE=sns
+      - MYSQL_DATABASE=sns-jpa
       - MYSQL_ROOT_PASSWORD=root-pass
       - MYSQL_USER=sns-svc
       - MYSQL_PASSWORD=sns-pass
@@ -16,4 +16,4 @@ services:
       - --collation-server=utf8mb4_unicode_ci
       - --lower_case_table_names=1
     volumes:
-      - ./mysql:/var/lib/mysql
+      - ./mysql-jpa:/var/lib/mysql

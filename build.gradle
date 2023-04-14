@@ -18,12 +18,10 @@ repositories {
 	mavenCentral()
 }
 
-//jdbc api, spring web, lombok, spring boot devtools, spring configuration processor, mysql driver
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	//추가 spring data commons
-	implementation 'org.springframework.data:spring-data-commons:3.0.4'
+
 	//추가 springdoc-openapi-ui -> springdoc-openapi-starter-webmvc-ui
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4'
 

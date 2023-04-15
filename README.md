@@ -50,6 +50,9 @@ follow
   
 ## Architecture
 - Layered Architecture
+
+## DB
+<img width="404" alt="image" src="https://user-images.githubusercontent.com/33487061/232205101-617c2565-a47a-4af6-8738-aeca73fc5ede.png">
   
 ## Dependency
 - Java 17

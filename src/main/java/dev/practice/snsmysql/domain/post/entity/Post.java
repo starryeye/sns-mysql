@@ -1,13 +1,18 @@
 package dev.practice.snsmysql.domain.post.entity;
 
+import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post {
 
     /**
@@ -24,15 +29,24 @@ public class Post {
      * -> likeCount 에서는 그냥 application 값이 바로 DB 에 반영되기 때문에 문제가 없었지만, version 은 그렇지 않다.
      */
 
-    private final Long id;
-    private final Long memberId; //게시물 작성자
-    private final String contents;
-    private final LocalDate createdDate; //게시물 작성 날짜
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private Long memberId; //게시물 작성자
+    @Column(nullable = false, length = 100)
+    private String contents;
+    @Column(nullable = false)
+    private LocalDate createdDate; //게시물 작성 날짜
+    @Column(nullable = false)
     private Long likeCount; //좋아요 수
 
-    private Long version; //낙관적 락 TODO: JPA Optimistic Locking
+    @Version
+    private Long version; //낙관적 락, JPA Optimistic Locking
 
-    private final LocalDateTime createdAt; //Entity 생성 시간
+    @Column(nullable = false)
+    private LocalDateTime createdAt; //Entity 생성 시간
 
     @Builder
     public Post(Long id, Long memberId, String content, LocalDate createdDate, Long likeCount, Long version, LocalDateTime createdAt) {

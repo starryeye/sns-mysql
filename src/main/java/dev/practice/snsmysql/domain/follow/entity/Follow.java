@@ -1,7 +1,10 @@
 package dev.practice.snsmysql.domain.follow.entity;
 
+import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -23,14 +26,21 @@ import java.util.Objects;
  * -> 2번으로 진행해보겠다.
  */
 @Getter
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Follow {
 
-    private final Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private final Long fromMemberId;
-    private final Long toMemberId;
+    @Column(nullable = false)
+    private Long fromMemberId;
+    @Column(nullable = false)
+    private Long toMemberId;
 
-    private final LocalDateTime createdAt;
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
 
     @Builder
     public Follow(Long id, Long fromMemberId, Long toMemberId, LocalDateTime createdAt) {

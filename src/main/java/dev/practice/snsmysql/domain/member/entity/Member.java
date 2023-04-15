@@ -1,7 +1,10 @@
 package dev.practice.snsmysql.domain.member.entity;
 
+import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.util.Assert;
 
 import java.time.LocalDate;
@@ -9,14 +12,22 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
-    private final Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    @Column(nullable = false, length = 20)
     private String nickname;
-    private final String email;
-    private final LocalDate birthday;
-    private final LocalDateTime createdAt;
+    @Column(nullable = false, length = 20)
+    private String email;
+    @Column(nullable = false)
+    private LocalDate birthday;
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
 
     private static final Long NAME_MAX_LENGTH = 10L;
 

@@ -1,7 +1,10 @@
 package dev.practice.snsmysql.domain.post.entity;
 
+import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -10,12 +13,19 @@ import java.util.Objects;
  * Fan out on write 를 위한 테이블
  */
 @Getter
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostLike {
 
-    private final Long id;
-    private final Long memberId; // 좋아요를 누른 회원 id
-    private final Long postId; // 게시물 id
-    private final LocalDateTime createdAt;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(nullable = false)
+    private Long memberId; // 좋아요를 누른 회원 id
+    @Column(nullable = false)
+    private Long postId; // 게시물 id
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
 
     @Builder
     public PostLike(Long id, Long memberId, Long postId, LocalDateTime createdAt) {

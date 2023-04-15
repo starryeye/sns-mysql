@@ -1,3 +1,6 @@
+server:
+  port: 9090
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -5,10 +8,15 @@ spring:
     url: jdbc:mysql://localhost:3306/sns-jpa?rewriteBatchedStatements=true&serverTimezone=UTC&characterEncoding=UTF-8
     username: sns-svc
     password: sns-pass
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
 
 logging:
   level:
     org:
+      hibernate: TRACE
       springframework:
         jdbc:
           core: TRACE

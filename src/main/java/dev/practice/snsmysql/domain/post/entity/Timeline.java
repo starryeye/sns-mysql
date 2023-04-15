@@ -1,7 +1,13 @@
 package dev.practice.snsmysql.domain.post.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -10,12 +16,16 @@ import java.util.Objects;
  * Fan out on write 를 위한 테이블
  */
 @Getter
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Timeline {
 
-    private final Long id;
-    private final Long memberId; // 게시물을 작성한 회원을 팔로우한 회원 id
-    private final Long postId; // 게시물 id
-    private final LocalDateTime createdAt;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private Long memberId; // 게시물을 작성한 회원을 팔로우한 회원 id
+    private Long postId; // 게시물 id
+    private LocalDateTime createdAt;
 
     @Builder
     public Timeline(Long id, Long memberId, Long postId, LocalDateTime createdAt) {

@@ -2,7 +2,6 @@ package dev.practice.snsmysql.domain.post.service;
 
 import dev.practice.snsmysql.domain.member.dto.MemberDto;
 import dev.practice.snsmysql.domain.post.dto.PostDto;
-import dev.practice.snsmysql.domain.post.entity.Post;
 import dev.practice.snsmysql.domain.post.entity.PostLike;
 import dev.practice.snsmysql.domain.post.repository.PostLikeRepository;
 import lombok.RequiredArgsConstructor;

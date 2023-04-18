@@ -44,6 +44,7 @@ public class MemberWriteService {
         return savedMember;
     }
 
+    @Transactional
     public void changeNickname(Long memberId, String nickname) {
         /**
          * 목표 - 회원의 닉네임을 변경한다.
@@ -53,7 +54,6 @@ public class MemberWriteService {
 
         var member = memberRepository.findById(memberId).orElseThrow();
         member.changeNickname(nickname);
-        memberRepository.save(member);
 
         saveMemberNicknameHistory(member);
     }

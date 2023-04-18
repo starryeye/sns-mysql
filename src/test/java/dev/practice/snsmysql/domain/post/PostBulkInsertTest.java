@@ -1,7 +1,7 @@
 package dev.practice.snsmysql.domain.post;
 
 import dev.practice.snsmysql.domain.post.entity.Post;
-import dev.practice.snsmysql.domain.post.repository.PostRepository;
+import dev.practice.snsmysql.domain.post.repository.jdbctemplate.PostRepository;
 import dev.practice.snsmysql.util.PostFixtureFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;

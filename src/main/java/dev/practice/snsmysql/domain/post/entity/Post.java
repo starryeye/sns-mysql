@@ -1,5 +1,6 @@
 package dev.practice.snsmysql.domain.post.entity;
 
+import dev.practice.snsmysql.domain.member.entity.MemberNicknameHistory;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -64,5 +65,18 @@ public class Post {
 
         //version 컬럼은 repository 에서 처리한다. 좋아요 수 증가에만 적용하는게 아닌.. 다른 로직에서도 적용해야 하기 때문이다.
         //따라서 모든 update 로직에서 처리하기 위해 repository 에서 처리한다.
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Post post = (Post) o;
+        return Objects.equals(id, post.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

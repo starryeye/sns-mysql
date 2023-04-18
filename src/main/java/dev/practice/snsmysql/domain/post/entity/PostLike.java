@@ -44,4 +44,17 @@ public class PostLike {
             this.createdAt = createdAt;
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PostLike postLike = (PostLike) o;
+        return Objects.equals(id, postLike.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

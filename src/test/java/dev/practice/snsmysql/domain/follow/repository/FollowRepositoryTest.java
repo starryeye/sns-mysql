@@ -1,6 +1,7 @@
 package dev.practice.snsmysql.domain.follow.repository;
 
 import dev.practice.snsmysql.domain.follow.entity.Follow;
+import dev.practice.snsmysql.domain.follow.repository.jdbc.FollowRepositoryByJdbc;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,8 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional

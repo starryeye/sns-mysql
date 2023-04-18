@@ -1,4 +1,4 @@
-package dev.practice.snsmysql.domain.follow.repository;
+package dev.practice.snsmysql.domain.follow.repository.jdbc;
 
 import dev.practice.snsmysql.domain.follow.entity.Follow;
 import lombok.RequiredArgsConstructor;

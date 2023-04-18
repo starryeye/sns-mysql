@@ -49,4 +49,17 @@ public class Follow {
         this.toMemberId = Objects.requireNonNull(toMemberId);
         this.createdAt = createdAt == null ? LocalDateTime.now() : createdAt;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Follow follow = (Follow) o;
+        return Objects.equals(id, follow.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

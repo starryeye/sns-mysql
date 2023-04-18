@@ -15,7 +15,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class FollowRepository {
+public class FollowRepositoryByJdbc {
 
     private static final String TABLE_NAME = "follow";
 
@@ -23,14 +23,14 @@ public class FollowRepository {
 
     private static final RowMapper<Follow> rowMapper = (resultSet, rowNum) -> Follow.builder()
             .id(resultSet.getLong("id"))
-            .fromMemberId(resultSet.getLong("fromMemberId"))
-            .toMemberId(resultSet.getLong("toMemberId"))
-            .createdAt(resultSet.getObject("createdAt", LocalDateTime.class))
+            .fromMemberId(resultSet.getLong("from_member_id"))
+            .toMemberId(resultSet.getLong("to_member_id"))
+            .createdAt(resultSet.getObject("created_at", LocalDateTime.class))
             .build();
 
     public List<Follow> findAllByFromMemberId(Long fromMemberId) {
 
-        var sql = String.format("SELECT * FROM %s WHERE fromMemberId = :fromMemberId", TABLE_NAME);
+        var sql = String.format("SELECT * FROM %s WHERE from_member_id = :fromMemberId", TABLE_NAME);
 
         var param = new MapSqlParameterSource()
                 .addValue("fromMemberId", fromMemberId);
@@ -40,7 +40,7 @@ public class FollowRepository {
 
     public List<Follow> findAllByToMemberId(Long toMemberId) {
 
-        var sql = String.format("SELECT * FROM %s WHERE toMemberId = :toMemberId", TABLE_NAME);
+        var sql = String.format("SELECT * FROM %s WHERE to_member_id = :toMemberId", TABLE_NAME);
 
         var param = new MapSqlParameterSource()
                 .addValue("toMemberId", toMemberId);

@@ -98,7 +98,7 @@ public class MemberRepositoryByJdbc {
     private Member update(Member member) {
 
         var sql = String.format(
-                "UPDATE %s set email =:email, nickname =:nickname, birthday =:birthday, createdAt =:createdAt where id =:id",
+                "UPDATE %s set email =:email, nickname =:nickname, birthday =:birthday, created_at =:createdAt where id =:id",
                 TABLE_NAME
         );
 

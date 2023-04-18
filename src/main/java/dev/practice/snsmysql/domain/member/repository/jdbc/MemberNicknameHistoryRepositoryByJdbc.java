@@ -24,18 +24,18 @@ public class MemberNicknameHistoryRepositoryByJdbc {
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    private static final String TABLE_NAME = "MemberNicknameHistory";
+    private static final String TABLE_NAME = "member_nickname_history";
 
     private static final RowMapper<MemberNicknameHistory> rowMapper = (ResultSet resultSet, int rowNum) -> MemberNicknameHistory.builder()
             .id(resultSet.getLong("id"))
-            .memberId(resultSet.getLong("memberId"))
+            .memberId(resultSet.getLong("member_id"))
             .nickname(resultSet.getString("nickname"))
-            .createdAt(resultSet.getObject("createdAt", LocalDateTime.class)) //columnLabel.. DB 에서 컬럼명이 create_at 이 아니고 createAt 이라서..
+            .createdAt(resultSet.getObject("created_at", LocalDateTime.class)) //columnLabel.. DB 에서 컬럼명이 create_at 이 아니고 createAt 이라서..
             .build();
 
     public List<MemberNicknameHistory> findAllByMemberId(Long memberId) {
 
-        var sql = String.format("SELECT * FROM %s WHERE memberId = :memberId", TABLE_NAME);
+        var sql = String.format("SELECT * FROM %s WHERE member_id = :memberId", TABLE_NAME);
 
         var param = new MapSqlParameterSource()
                 .addValue("memberId", memberId);

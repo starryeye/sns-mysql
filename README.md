@@ -2,7 +2,7 @@
 
 ## Branch
 - main : JPA version  
-- jdbctemplate : JdbcTemplate  
+- jdbctemplate : JdbcTemplate version  
 
 ## Dependency
 - Java 17

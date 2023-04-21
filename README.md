@@ -1,5 +1,9 @@
 # sns-mysql
 
+## Branch
+- main : JPA version  
+- jdbctemplate : JdbcTemplate  
+
 ## Dependency
 - Java 17
 - Spring Framework

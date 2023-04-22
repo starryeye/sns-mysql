@@ -2,11 +2,11 @@
 
 ## Branch
 AS-IS  
-- main : JPA version  
+- main : Spring Data Jpa + JdbcTemplate version  
 - jdbctemplate : JdbcTemplate version  
   
 TO-BE  
-- main : QueryDsl  
+- main : QueryDsl + Spring Data Jpa + JdbcTemplate verion  
 - jpa : Spring Data Jpa version  
 - jdbctemplate : JdbcTemplate version  
   

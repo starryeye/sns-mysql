@@ -1,7 +1,7 @@
 package dev.practice.snsmysql.domain.post;
 
 import dev.practice.snsmysql.domain.post.entity.Post;
-import dev.practice.snsmysql.domain.post.repository.PostRepository;
+import dev.practice.snsmysql.domain.post.repository.jdbc.PostRepositoryByJdbc;
 import dev.practice.snsmysql.util.PostFixtureFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
@@ -18,7 +18,7 @@ import java.util.stream.IntStream;
 public class PostBulkInsertTest {
 
     @Autowired
-    private PostRepository postRepository;
+    private PostRepositoryByJdbc postRepository;
 
     //벌크 데이터를 DB에 저장한다.
     @Test

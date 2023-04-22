@@ -4,7 +4,7 @@ import dev.practice.snsmysql.domain.post.dto.DailyPostCount;
 import dev.practice.snsmysql.domain.post.dto.DailyPostCountRequest;
 import dev.practice.snsmysql.domain.post.dto.PostDto;
 import dev.practice.snsmysql.domain.post.entity.Post;
-import dev.practice.snsmysql.domain.post.repository.PostRepository;
+import dev.practice.snsmysql.domain.post.repository.jdbc.PostRepositoryByJdbc;
 import dev.practice.snsmysql.util.CursorRequest;
 import dev.practice.snsmysql.util.PageCursor;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostReadService {
 
-    private final PostRepository postRepository;
+    private final PostRepositoryByJdbc postRepository;
 
     public PostDto getPost(Long postId) {
         var post = postRepository.findById(postId, false).orElseThrow();

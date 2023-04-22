@@ -1,7 +1,7 @@
 package dev.practice.snsmysql.domain.post.service;
 
 import dev.practice.snsmysql.domain.post.entity.Timeline;
-import dev.practice.snsmysql.domain.post.repository.TimelineRepository;
+import dev.practice.snsmysql.domain.post.repository.jdbc.TimelineRepositoryByJdbc;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TimelineWriteService {
 
-    private final TimelineRepository timelineRepository;
+    private final TimelineRepositoryByJdbc timelineRepository;
 
     public void deliveryToTimeline(Long postId, List<Long> fromMemberIds) {
         /**

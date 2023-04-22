@@ -2,7 +2,7 @@ package dev.practice.snsmysql.domain.post.service;
 
 import dev.practice.snsmysql.domain.post.dto.PostCommand;
 import dev.practice.snsmysql.domain.post.entity.Post;
-import dev.practice.snsmysql.domain.post.repository.PostRepository;
+import dev.practice.snsmysql.domain.post.repository.jdbc.PostRepositoryByJdbc;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PostWriteService {
 
-    private final PostRepository postRepository;
+    private final PostRepositoryByJdbc postRepository;
 
     public Long create(PostCommand command) {
         var post = Post.builder()

@@ -11,20 +11,40 @@ public class PageHelper {
      */
     public static String orderBy(Sort sort) {
 
-        if(sort.isEmpty()) {
+        if (sort.isEmpty()) {
             return "id desc";
         }
 
         List<Sort.Order> orders = sort.toList();
 
         StringBuilder stringBuilder = new StringBuilder();
+
         for (Sort.Order order : orders) {
+
+            String property = order.getProperty();
+            String propertySnakeCase = camelToSnakeCase(property);
+
             stringBuilder
-                    .append(order.getProperty())
+                    .append(propertySnakeCase)
                     .append(" ")
                     .append(order.getDirection().name())
                     .append(",");
         }
         return stringBuilder.substring(0, stringBuilder.length() - 1);
+    }
+
+    private static String camelToSnakeCase(String camelCaseString) {
+
+        StringBuilder snakeCaseBuilder = new StringBuilder();
+
+        for (char c : camelCaseString.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                snakeCaseBuilder.append('_');
+                snakeCaseBuilder.append(Character.toLowerCase(c));
+            } else {
+                snakeCaseBuilder.append(c);
+            }
+        }
+        return snakeCaseBuilder.toString();
     }
 }

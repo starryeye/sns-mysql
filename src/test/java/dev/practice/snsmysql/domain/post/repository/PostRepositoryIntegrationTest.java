@@ -15,6 +15,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -85,6 +89,28 @@ class PostRepositoryIntegrationTest {
 
         Assertions.assertThat(jpa1).isEqualTo(jdbcTemplate);
         Assertions.assertThat(jpa1).isEqualTo(jpa2);
+    }
+
+    @Test
+    void findAllByMemberId() {
+        //given
+        int page = 2;
+        int size = 3;
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdDate");
+
+        Pageable request = PageRequest.of(page, size, sort);
+
+        //when
+        Page<Post> jpa = postRepository.findAllByMemberId(2L, request);
+        Page<Post> jdbcTemplate = postRepositoryByJdbc.findAllByMemberId(2L, request);
+
+        //then
+        Assertions.assertThat(jpa).isNotNull();
+        Assertions.assertThat(jdbcTemplate).isNotNull();
+
+        Assertions.assertThat(jpa.getSize()).isEqualTo(jdbcTemplate.getSize());
+
+        Assertions.assertThat(jpa).isEqualTo(jdbcTemplate);
     }
 
 }

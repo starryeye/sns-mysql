@@ -1,17 +1,33 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/sns-jpa?rewriteBatchedStatements=true&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=999999&serverTimezone=UTC&characterEncoding=UTF-8
-#    url: jdbc:mysql://localhost:3306/sns?rewriteBatchedStatements=true&serverTimezone=UTC&characterEncoding=UTF-8
+#    url: jdbc:mysql://localhost:3306/sns-jpa?rewriteBatchedStatements=true&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=999999&serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/sns-jpa?rewriteBatchedStatements=true&serverTimezone=UTC&characterEncoding=UTF-8
     username: sns-svc
     password: sns-pass
+  jpa:
+    hibernate:
+      ddl-auto: create
+    #    show-sql: true
+    properties:
+      hibernate:
+        highlight_sql: true
+        format_sql: true
+        use_sql_comments: true
 
 logging:
   level:
     org:
+      hibernate:
+        SQL: debug
+        type: trace
+        orm:
+          jdbc:
+            bind: trace
+            extract: trace
       springframework:
         jdbc:
-          core: TRACE
+          core: trace
 
 # https://junit.org/junit5/docs/snapshot/user-guide/index.html#writing-tests-parallel-execution
 #junit:

@@ -36,6 +36,9 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	//추가 easy random (fixture library 이다. github.com/j-easy/easy-random)
 	testImplementation 'org.jeasy:easy-random-core:5.0.0'
+
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {

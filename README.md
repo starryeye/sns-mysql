@@ -11,7 +11,7 @@ TO-BE
 - jdbctemplate : JdbcTemplate version  
   
 ## Concept Studied
--  
+- 대용량 트래픽 처리  
 -  
   
 ## Dependency

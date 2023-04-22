@@ -1,9 +1,7 @@
 package dev.practice.snsmysql.domain.member.repository;
 
-import dev.practice.snsmysql.domain.member.entity.Member;
 import dev.practice.snsmysql.domain.member.entity.MemberNicknameHistory;
 import dev.practice.snsmysql.domain.member.repository.jdbc.MemberNicknameHistoryRepositoryByJdbc;
-import dev.practice.snsmysql.domain.member.repository.jdbc.MemberRepositoryByJdbc;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,16 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-class MemberNicknameHistoryRepositoryTest {
+class MemberNicknameHistoryRepositoryIntegrationTest {
 
     @Autowired
     MemberNicknameHistoryRepositoryByJdbc memberNicknameHistoryRepositoryByJdbc;

@@ -10,17 +10,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
-class TimelineRepositoryTest {
+class TimelineRepositoryIntegrationTest {
     @Autowired
     TimelineRepository timelineRepository;
     @Autowired
@@ -43,9 +39,6 @@ class TimelineRepositoryTest {
             Timeline timeline2 = easyRandom2.nextObject(Timeline.class);
             entityManager.persist(timeline2);
         }
-
-        List<Timeline> timelineList = timelineRepository.findAll();
-        int a = 0;
     }
 
     @Test

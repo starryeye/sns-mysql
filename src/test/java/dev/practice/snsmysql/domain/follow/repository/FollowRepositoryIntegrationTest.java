@@ -14,7 +14,7 @@ import java.util.List;
 
 @SpringBootTest
 @Transactional
-class FollowRepositoryTest {
+class FollowRepositoryIntegrationTest {
 
     @Autowired
     FollowRepository followRepository;

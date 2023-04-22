@@ -6,9 +6,13 @@ AS-IS
 - jdbctemplate : JdbcTemplate version  
   
 TO-BE  
-- main : QueryDsl + Spring Data Jpa + JdbcTemplate verion  
+- main : QueryDsl + Spring Data Jpa + JdbcTemplate version  
 - jpa : Spring Data Jpa version  
 - jdbctemplate : JdbcTemplate version  
+  
+## Concept Studied
+-  
+-  
   
 ## Dependency
 - Java 17

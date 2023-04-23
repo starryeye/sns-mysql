@@ -2,12 +2,11 @@ package dev.practice.snsmysql.domain.post.repository.custom;
 
 import dev.practice.snsmysql.domain.post.dto.DailyPostCount;
 import dev.practice.snsmysql.domain.post.dto.DailyPostCountRequest;
+import dev.practice.snsmysql.domain.post.entity.Post;
 
 import java.util.List;
 
 public interface PostRepositoryCustom {
-
-    //DailyPostCount 가 해결되지 않아서 Custom 으로 뺀다.
 
     /**
      * SQL :
@@ -20,4 +19,9 @@ public interface PostRepositoryCustom {
      * -> countByMemberIdAndCreatedDateBetween
      */
     List<DailyPostCount> countByMemberIdAndCreatedDateByCustomJpql (DailyPostCountRequest request);
+
+    /**
+     * limit 을 변수로 받기 위함..
+     */
+    List<Post> findAllByMemberIdAndOrderByIdDescWithLimit(Long memberId, int size);
 }

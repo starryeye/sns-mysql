@@ -67,7 +67,7 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostRepositor
      * Query Method 로 진행하려니까.. query 가 이상해지고(where 에 version 이 갑자기 생김) 메서드 이름도 이상하게 인식됨..
      * -> findByIdUsingPessimisticWriteLock 에서 Using 이하 무시가 안됨..(Using, For, With 모두 동일한 에러)
      * 그래서, @Query 로 진행
-     * -> 질문.. 해볼 것 (+ merge 관련 dirty check)
+     * -> TODO : 질문.. 해볼 것 (+ merge 관련 dirty check)
      */
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     @Query(value = "select p from Post p where p.id = :id")
@@ -83,4 +83,24 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostRepositor
      * select p from Post p where p.id in :ids
      */
     List<Post> findAllByIdIn(List<Long> ids);
+
+    /**
+     * Cursor 기반 페이지네이션, totalCount 쿼리 없음
+     *
+     * SQL :
+     * SELECT *
+     * FROM %s
+     * WHERE member_id = :memberId
+     * ORDER BY id DESC
+     * LIMIT :size
+     *
+     * JPQL :
+     * custom 에서 구현
+     *
+     * Query Method :
+     * findTopXXByMemberIdOrderByIdDesc ..
+     * -> XX(limit)를 변수로 받을 수 없어서 Custom..
+     */
+//    List<Post> findTopXXByMemberIdOrderByIdDesc(Long memberId);
+
 }

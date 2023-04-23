@@ -249,4 +249,9 @@ class PostRepositoryIntegrationTest {
 
         Assertions.assertThat(jpa).isEqualTo(jdbcTemplate);
     }
+
+    @Test
+    void findAllByMemberIdAndOrderByIdDescWithLimit() {
+        //TODO
+    }
 }

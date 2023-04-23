@@ -2,6 +2,7 @@ package dev.practice.snsmysql.domain.post.repository.custom;
 
 import dev.practice.snsmysql.domain.post.dto.DailyPostCount;
 import dev.practice.snsmysql.domain.post.dto.DailyPostCountRequest;
+import dev.practice.snsmysql.domain.post.entity.Post;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,6 +23,14 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom{
                 .setParameter("memberId", request.memberId())
                 .setParameter("firstDate", request.firstDate())
                 .setParameter("lastDate", request.lastDate())
+                .getResultList();
+    }
+
+    @Override
+    public List<Post> findAllByMemberIdAndOrderByIdDescWithLimit(Long memberId, int size) {
+        return entityManager.createQuery("select p from Post p where p.memberId = :memberId order by p.id desc", Post.class)
+                .setParameter("memberId", memberId)
+                .setMaxResults(size)
                 .getResultList();
     }
 }

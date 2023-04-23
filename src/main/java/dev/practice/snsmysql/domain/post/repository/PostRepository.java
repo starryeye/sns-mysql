@@ -72,4 +72,15 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostRepositor
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     @Query(value = "select p from Post p where p.id = :id")
     Optional<Post> findByIdUsingPessimisticWriteLock(@Param("id") Long id);
+
+    /**
+     * SQL :
+     * SELECT *
+     * FROM %s
+     * WHERE id in (:ids)
+     *
+     * JPQL :
+     * select p from Post p where p.id in :ids
+     */
+    List<Post> findAllByIdIn(List<Long> ids);
 }

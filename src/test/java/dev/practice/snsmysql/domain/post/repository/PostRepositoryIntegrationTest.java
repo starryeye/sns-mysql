@@ -176,6 +176,7 @@ class PostRepositoryIntegrationTest {
         try {
             //executorService.submit() 의 결과를 가져온다.
             //60초 이내에 결과가 없으면 TimeoutException 발생 or 작업 완료 될때 까지 대기
+            //timeout 설정이 없고 작업 완료 되지 않으면 무한 대기 이다.
             future.get(60, TimeUnit.SECONDS);
 
         } catch (ExecutionException e) {
@@ -209,5 +210,43 @@ class PostRepositoryIntegrationTest {
             log.info("jop is not terminate, Waiting time : {}", stopWatch.getTotalTimeSeconds());
             Assertions.assertThat(true).isFalse();
         }
+    }
+
+    @Test
+    @Transactional
+    void findByIdWithPessimisticReadLock_Jdbc() {
+        //TODO
+    }
+
+    @Test
+    @Transactional
+    void findAllByIdIn() {
+        //given
+        Long memberId = 2L;
+        int page = 0;
+        int size = 3;
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdDate");
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        List<Long> postIdList = postRepository.findAllByMemberId(memberId, pageable)
+                .getContent().stream()
+                .map(Post::getId)
+                .toList();
+
+        entityManager.flush();
+        entityManager.clear();
+
+        //when
+        List<Post> jpa = postRepository.findAllByIdIn(postIdList);
+        List<Post> jdbcTemplate = postRepositoryByJdbc.findAllByInIds(postIdList);
+
+        //then
+        Assertions.assertThat(jpa).isNotNull();
+        Assertions.assertThat(jdbcTemplate).isNotNull();
+
+        Assertions.assertThat(jpa.size()).isEqualTo(jdbcTemplate.size());
+
+        Assertions.assertThat(jpa).isEqualTo(jdbcTemplate);
     }
 }

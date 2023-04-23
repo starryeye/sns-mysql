@@ -4,13 +4,16 @@ import dev.practice.snsmysql.domain.post.dto.DailyPostCount;
 import dev.practice.snsmysql.domain.post.dto.DailyPostCountRequest;
 import dev.practice.snsmysql.domain.post.entity.Post;
 import dev.practice.snsmysql.domain.post.repository.custom.PostRepositoryCustom;
+import jakarta.persistence.LockModeType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long>, PostRepositoryCustom {
 
@@ -52,4 +55,21 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostRepositor
      */
     @Query(countQuery = "select count(p.id) from Post p where p.memberId = :memberId")
     Page<Post> findAllByMemberId(Long memberId, Pageable pageable);
+
+    /**
+     * SQL :
+     * SELECT *
+     * FROM %s
+     * WHERE id = :id
+     * FOR UPDATE
+     *
+     * @Lock 을 통해서 비관적 락 적용 된다.
+     * Query Method 로 진행하려니까.. query 가 이상해지고(where 에 version 이 갑자기 생김) 메서드 이름도 이상하게 인식됨..
+     * -> findByIdUsingPessimisticWriteLock 에서 Using 이하 무시가 안됨..(Using, For, With 모두 동일한 에러)
+     * 그래서, @Query 로 진행
+     * -> 질문.. 해볼 것 (+ merge 관련 dirty check)
+     */
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    @Query(value = "select p from Post p where p.id = :id")
+    Optional<Post> findByIdUsingPessimisticWriteLock(@Param("id") Long id);
 }

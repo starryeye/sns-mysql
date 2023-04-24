@@ -1,14 +1,15 @@
-package dev.practice.snsmysql.domain.post.repository.custom;
+package dev.practice.snsmysql.domain.post.repository.custom.impl;
 
 import dev.practice.snsmysql.domain.post.dto.DailyPostCount;
 import dev.practice.snsmysql.domain.post.dto.DailyPostCountRequest;
 import dev.practice.snsmysql.domain.post.entity.Post;
+import dev.practice.snsmysql.domain.post.repository.custom.PostRepositoryCustom;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public class PostRepositoryCustomImpl implements PostRepositoryCustom{
+public class PostRepositoryCustomImpl implements PostRepositoryCustom {
 
     @Autowired
     EntityManager entityManager;

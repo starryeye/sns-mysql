@@ -68,4 +68,9 @@ class TimelineRepositoryIntegrationTest {
         Assertions.assertThat(timelineList1).isEqualTo(timelineList2);
         Assertions.assertThat(timelineList3).isEqualTo(timelineList4);
     }
+
+    @Test
+    void bulkInsert() {
+        //TODO
+    }
 }

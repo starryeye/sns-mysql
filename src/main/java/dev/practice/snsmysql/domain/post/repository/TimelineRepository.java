@@ -2,9 +2,10 @@ package dev.practice.snsmysql.domain.post.repository;
 
 import dev.practice.snsmysql.domain.post.entity.Timeline;
 import dev.practice.snsmysql.domain.post.repository.custom.TimelineRepositoryCustom;
+import dev.practice.snsmysql.domain.post.repository.custom.TimelineRepositoryCustomWithJdbc;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TimelineRepository extends JpaRepository<Timeline, Long>, TimelineRepositoryCustom {
+public interface TimelineRepository extends JpaRepository<Timeline, Long>, TimelineRepositoryCustom, TimelineRepositoryCustomWithJdbc {
 
     /**
      * 아래는 size 를 받을 수 없는 구조라 오류

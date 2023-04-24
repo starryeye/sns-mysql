@@ -1,12 +1,13 @@
-package dev.practice.snsmysql.domain.post.repository.custom;
+package dev.practice.snsmysql.domain.post.repository.custom.impl;
 
 import dev.practice.snsmysql.domain.post.entity.Timeline;
+import dev.practice.snsmysql.domain.post.repository.custom.TimelineRepositoryCustom;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public class TimelineRepositoryCustomImpl implements TimelineRepositoryCustom{
+public class TimelineRepositoryCustomImpl implements TimelineRepositoryCustom {
 
     @Autowired
     EntityManager entityManager;

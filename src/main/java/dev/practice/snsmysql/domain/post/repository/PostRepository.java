@@ -4,6 +4,7 @@ import dev.practice.snsmysql.domain.post.dto.DailyPostCount;
 import dev.practice.snsmysql.domain.post.dto.DailyPostCountRequest;
 import dev.practice.snsmysql.domain.post.entity.Post;
 import dev.practice.snsmysql.domain.post.repository.custom.PostRepositoryCustom;
+import dev.practice.snsmysql.domain.post.repository.custom.PostRepositoryCustomWithJdbc;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +16,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface PostRepository extends JpaRepository<Post, Long>, PostRepositoryCustom {
+public interface PostRepository extends JpaRepository<Post, Long>, PostRepositoryCustom, PostRepositoryCustomWithJdbc {
 
     /**
      * Group by 를 하는 순간 집계 함수에 대한 컬럼이 추가 되므로..

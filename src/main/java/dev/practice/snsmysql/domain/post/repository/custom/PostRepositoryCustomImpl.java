@@ -42,4 +42,35 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom{
                 .setMaxResults(size)
                 .getResultList();
     }
+
+    @Override
+    public List<Post> findAllByMemberIdInOrderByIdDescWithLimit(List<Long> memberIds, int size) {
+        return entityManager.createQuery(
+                """
+                        select p
+                        from Post p
+                        where p.memberId in :memberIds
+                        order by p.id DESC
+                        """, Post.class
+                )
+                .setParameter("memberIds", memberIds)
+                .setMaxResults(size)
+                .getResultList();
+    }
+
+    @Override
+    public List<Post> findAllByMemberIdInAndIdLessThanOrderByIdDesWithLimit(Long id, List<Long> memberIds, int size) {
+        return entityManager.createQuery(
+                """
+                        select p
+                        from Post p
+                        where p.memberId in :memberIds and p.id < :id
+                        order by p.id DESC
+                        """, Post.class
+                )
+                .setParameter("memberIds", memberIds)
+                .setParameter("id", id)
+                .setMaxResults(size)
+                .getResultList();
+    }
 }

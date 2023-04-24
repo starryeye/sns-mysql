@@ -125,4 +125,36 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostRepositor
      * -> XX(limit)를 변수로 받을 수 없어서 Custom..
      */
 //    List<Post> findTopXXByMemberIdAndIdLessThanOrderByIdDesc(Long memberId, Long id, int size);
+
+    /**
+     * Cursor 기반 페이지네이션, totalCount 쿼리 없음
+     *
+     * jdbcTemplate : List<Post> findAllByInMemberIdsAndOrderByIdDesc(List<Long> memberIds, int size)
+     *
+     * SQL :
+     * SELECT *
+     * FROM %s
+     * WHERE member_id in (:memberIds)
+     * ORDER BY id DESC
+     * LIMIT :size
+     *
+     * JPQL, Query Method : 상동
+     */
+//    List<Post> findTopXXByMemberIdInOrderByIdDesc(List<Long> memberIds);
+
+    /**
+     * Cursor 기반 페이지네이션, totalCount 쿼리 없음
+     *
+     * jdbcTemplate : List<Post> findAllByLessThanIdAndInMemberIdsAndOrderByIdDesc(Long id, List<Long> memberIds, int size)
+     *
+     * SQL :
+     * SELECT *
+     * FROM %s
+     * WHERE member_id in (:memberIds) and id < :id
+     * ORDER BY id DESC
+     * LIMIT :size
+     *
+     * JPQL, Query Method : 상동
+     */
+//    List<Post> findTopXXByMemberIdInAndIdLessThanOrderByIdDesc(List<Long> memberIds);
 }

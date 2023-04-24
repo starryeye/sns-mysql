@@ -25,4 +25,6 @@ public interface PostRepositoryCustom {
      */
     List<Post> findAllByMemberIdOrderByIdDescWithLimit(Long memberId, int size);
     List<Post> findAllByMemberIdAndIdLessThanOrderByIdDescWithLimit(Long id, Long memberId, int size);
+    List<Post> findAllByMemberIdInOrderByIdDescWithLimit(List<Long> memberIds, int size);
+    List<Post> findAllByMemberIdInAndIdLessThanOrderByIdDesWithLimit(Long id, List<Long> memberIds, int size);
 }

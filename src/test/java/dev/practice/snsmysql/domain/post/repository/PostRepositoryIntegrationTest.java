@@ -306,4 +306,62 @@ class PostRepositoryIntegrationTest {
 
         Assertions.assertThat(jpa).isEqualTo(jdbcTemplate);
     }
+
+    /**
+     * Cursor 기반 Pagination
+     * 첫 페이지 요청 처리
+     * memberIds
+     */
+    @Test
+    void findAllByMemberIdInOrderByIdDescWithLimit() {
+
+        //given
+        List<Long> memberIds = List.of(1L, 2L);
+        int size = 6;
+
+        //when
+        List<Post> jpa = postRepository.findAllByMemberIdInOrderByIdDescWithLimit(memberIds, size);
+        List<Post> jdbcTemplate = postRepositoryByJdbc.findAllByInMemberIdsAndOrderByIdDesc(memberIds, size);
+
+        //then
+        Assertions.assertThat(jpa).isNotNull();
+        Assertions.assertThat(jdbcTemplate).isNotNull();
+
+        Assertions.assertThat(jpa.size()).isEqualTo(jdbcTemplate.size());
+
+        Assertions.assertThat(jpa).isEqualTo(jdbcTemplate);
+    }
+
+    /**
+     * Cursor 기반 Pagination
+     * 두번째 페이지 부터의 요청 처리
+     * memberIds
+     */
+    @Test
+    void findAllByMemberIdInAndIdLessThanOrderByIdDesWithLimit() {
+
+        //given
+        List<Long> memberIds = List.of(1L, 2L);
+        int size = 3;
+
+        List<Post> postList = postRepository.findAllByMemberIdInOrderByIdDescWithLimit(memberIds, size);
+        entityManager.clear();
+
+        Long lastId = postList.stream()
+                .mapToLong(Post::getId)
+                .min()
+                .orElse(-1L);
+
+        //when
+        List<Post> jpa = postRepository.findAllByMemberIdInAndIdLessThanOrderByIdDesWithLimit(lastId, memberIds, size);
+        List<Post> jdbcTemplate = postRepositoryByJdbc.findAllByLessThanIdAndInMemberIdsAndOrderByIdDesc(lastId, memberIds, size);
+
+        //then
+        Assertions.assertThat(jpa).isNotNull();
+        Assertions.assertThat(jdbcTemplate).isNotNull();
+
+        Assertions.assertThat(jpa.size()).isEqualTo(jdbcTemplate.size());
+
+        Assertions.assertThat(jpa).isEqualTo(jdbcTemplate);
+    }
 }

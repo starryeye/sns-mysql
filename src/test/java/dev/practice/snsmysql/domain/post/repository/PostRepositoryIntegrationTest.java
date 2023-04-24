@@ -24,6 +24,7 @@ import org.springframework.util.StopWatch;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.*;
@@ -252,6 +253,21 @@ class PostRepositoryIntegrationTest {
 
     @Test
     void findAllByMemberIdAndOrderByIdDescWithLimit() {
-        //TODO
+
+        //given
+        Long memberId = 2L;
+        int size = 5;
+
+        //when
+        List<Post> jpa = postRepository.findAllByMemberIdAndOrderByIdDescWithLimit(memberId, size);
+        List<Post> jdbcTemplate = postRepositoryByJdbc.findAllByMemberIdAndOrderByIdDesc(memberId, size);
+
+        //then
+        Assertions.assertThat(jpa).isNotNull();
+        Assertions.assertThat(jdbcTemplate).isNotNull();
+
+        Assertions.assertThat(jpa.size()).isEqualTo(jdbcTemplate.size());
+
+        Assertions.assertThat(jpa).isEqualTo(jdbcTemplate);
     }
 }

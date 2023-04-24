@@ -24,7 +24,6 @@ import org.springframework.util.StopWatch;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.*;
@@ -53,7 +52,7 @@ class PostRepositoryIntegrationTest {
         EasyRandom easyRandom1 = PostFixtureFactory.get(1L, start, end);
         EasyRandom easyRandom2 = PostFixtureFactory.get(2L, start, end);
 
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             Post post1 = easyRandom1.nextObject(Post.class);
             Post post2 = easyRandom2.nextObject(Post.class);
 
@@ -184,7 +183,7 @@ class PostRepositoryIntegrationTest {
 
             Throwable cause = e.getCause();
 
-            if(cause instanceof PessimisticLockingFailureException) {
+            if (cause instanceof PessimisticLockingFailureException) {
                 log.info("PessimisticLockingFailureException 발생, success");
                 Assertions.assertThat(true).isTrue();
             } else {
@@ -199,12 +198,12 @@ class PostRepositoryIntegrationTest {
 
         //스레드풀이 종료될때까지 65 초간 기다린다.
         //shutdown() 이 없으면 스레드가 종료되어도 계속 기다림, 스레드 대기가 아니라 스레드 풀 대기이기 때문
-        if(executorService.awaitTermination(65, TimeUnit.SECONDS)) {
+        if (executorService.awaitTermination(65, TimeUnit.SECONDS)) {
 
             stopWatch.stop();
             log.info("jop is terminate, Waiting time : {}", stopWatch.getTotalTimeSeconds());
             //50초간 기다리고 정상 종료 되는 것으로 봐서 innodb lock wait timeout 이 50초로 설정되어 있는듯
-        }else {
+        } else {
             //아래는 innodb lock wait time 이 65초 이상 이거나
             //다른 이유로 스레드가 종료되지 않은 경우 (65초 대기)
             stopWatch.stop();
@@ -251,16 +250,53 @@ class PostRepositoryIntegrationTest {
         Assertions.assertThat(jpa).isEqualTo(jdbcTemplate);
     }
 
+    /**
+     * Cursor 기반 Pagination
+     * 최초 페이지
+     */
     @Test
-    void findAllByMemberIdAndOrderByIdDescWithLimit() {
+    void findAllByMemberIdOrderByIdDescWithLimit() {
 
         //given
         Long memberId = 2L;
         int size = 5;
 
         //when
-        List<Post> jpa = postRepository.findAllByMemberIdAndOrderByIdDescWithLimit(memberId, size);
+        List<Post> jpa = postRepository.findAllByMemberIdOrderByIdDescWithLimit(memberId, size);
         List<Post> jdbcTemplate = postRepositoryByJdbc.findAllByMemberIdAndOrderByIdDesc(memberId, size);
+
+        //then
+        Assertions.assertThat(jpa).isNotNull();
+        Assertions.assertThat(jdbcTemplate).isNotNull();
+
+        Assertions.assertThat(jpa.size()).isEqualTo(jdbcTemplate.size());
+
+        Assertions.assertThat(jpa).isEqualTo(jdbcTemplate);
+    }
+
+    /**
+     * Cursor 기반 Pagination
+     * 두번째 페이지부터의 요청 처리
+     */
+    @Test
+    void findAllByMemberIdAndIdLessThanOrderByIdDescWithLimit() {
+
+        //given
+        Long memberId = 1L;
+        int size = 4;
+
+        List<Post> postList = postRepository.findAllByMemberIdOrderByIdDescWithLimit(memberId, size);
+        entityManager.clear();
+
+        Long lastId = postList.stream()
+                .mapToLong(Post::getId)
+                .min()
+                .orElse(-1L);
+        log.info("last id = {}", lastId);
+
+        //when
+        List<Post> jpa = postRepository.findAllByMemberIdAndIdLessThanOrderByIdDescWithLimit(lastId, memberId, size);
+        List<Post> jdbcTemplate = postRepositoryByJdbc.findAllByLessThanIdAndMemberIdAndOrderByIdDesc(lastId, memberId, size);
 
         //then
         Assertions.assertThat(jpa).isNotNull();

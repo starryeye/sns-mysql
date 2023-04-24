@@ -87,6 +87,8 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostRepositor
     /**
      * Cursor 기반 페이지네이션, totalCount 쿼리 없음
      *
+     * jdbcTemplate : List<Post> findAllByMemberIdAndOrderByIdDesc(Long memberId, int size)
+     *
      * SQL :
      * SELECT *
      * FROM %s
@@ -103,4 +105,24 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostRepositor
      */
 //    List<Post> findTopXXByMemberIdOrderByIdDesc(Long memberId);
 
+    /**
+     * Cursor 기반 페이지네이션, totalCount 쿼리 없음
+     *
+     * jdbcTemplate : List<Post> findAllByLessThanIdAndMemberIdAndOrderByIdDesc(Long id, Long memberId, int size)
+     *
+     * SQL :
+     * SELECT *
+     * FROM %s
+     * WHERE member_id = :memberId and id < :id
+     * ORDER BY id DESC
+     * LIMIT :size
+     *
+     * JPQL :
+     * custom 에서 구현
+     *
+     * Query Method :
+     * findTopXXByMemberIdOrderByIdDesc ..
+     * -> XX(limit)를 변수로 받을 수 없어서 Custom..
+     */
+//    List<Post> findTopXXByMemberIdAndIdLessThanOrderByIdDesc(Long memberId, Long id, int size);
 }

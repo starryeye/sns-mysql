@@ -23,5 +23,6 @@ public interface PostRepositoryCustom {
     /**
      * limit 을 변수로 받기 위함..
      */
-    List<Post> findAllByMemberIdAndOrderByIdDescWithLimit(Long memberId, int size);
+    List<Post> findAllByMemberIdOrderByIdDescWithLimit(Long memberId, int size);
+    List<Post> findAllByMemberIdAndIdLessThanOrderByIdDescWithLimit(Long id, Long memberId, int size);
 }

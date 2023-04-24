@@ -5,14 +5,14 @@ import dev.practice.snsmysql.domain.post.dto.DailyPostCountRequest;
 import dev.practice.snsmysql.domain.post.entity.Post;
 import dev.practice.snsmysql.domain.post.repository.custom.PostRepositoryCustom;
 import jakarta.persistence.EntityManager;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 public class PostRepositoryCustomImpl implements PostRepositoryCustom {
 
-    @Autowired
-    EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Override
     public List<DailyPostCount> countByMemberIdAndCreatedDateByCustomJpql(DailyPostCountRequest request) {

@@ -3,14 +3,14 @@ package dev.practice.snsmysql.domain.post.repository.custom.impl;
 import dev.practice.snsmysql.domain.post.entity.Timeline;
 import dev.practice.snsmysql.domain.post.repository.custom.TimelineRepositoryCustom;
 import jakarta.persistence.EntityManager;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 public class TimelineRepositoryCustomImpl implements TimelineRepositoryCustom {
 
-    @Autowired
-    EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Override
     public List<Timeline> findAllByMemberIdWithLimit(Long memberId, int size) {

@@ -1,7 +1,7 @@
 package dev.practice.snsmysql.domain.post;
 
 import dev.practice.snsmysql.domain.post.entity.Post;
-import dev.practice.snsmysql.domain.post.repository.jdbc.PostRepositoryByJdbc;
+import dev.practice.snsmysql.domain.post.repository.PostRepository;
 import dev.practice.snsmysql.util.PostFixtureFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
@@ -21,7 +21,7 @@ public class PostBulkInsertTest {
     //한방 쿼리가 불가능 하여 jdbcTemplate 와 같이 native query 를 사용해야한다..
     //TODO : JPA 의 @Query(native = true) 로 해결 검토
     @Autowired
-    private PostRepositoryByJdbc postRepository;
+    private PostRepository postRepository;
 
     //벌크 데이터를 DB에 저장한다.
     @Test

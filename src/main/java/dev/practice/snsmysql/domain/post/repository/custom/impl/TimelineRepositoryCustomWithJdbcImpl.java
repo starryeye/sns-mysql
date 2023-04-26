@@ -22,7 +22,7 @@ public class TimelineRepositoryCustomWithJdbcImpl implements TimelineRepositoryC
 
         var sql = String.format(
                 """
-                INSERT INTO %s (memberId, postId, createdAt)
+                INSERT INTO %s (member_id, post_id, created_at)
                 VALUES (:memberId, :postId, :createdAt)
                 """, TABLE_NAME
         );

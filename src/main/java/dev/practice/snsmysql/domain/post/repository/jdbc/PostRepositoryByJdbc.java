@@ -263,8 +263,8 @@ public class PostRepositoryByJdbc {
     public void bulkInsert(List<Post> posts) {
         var sql = String.format(
                 """
-                INSERT INTO %s (member_id, contents, createdDate, createdAt)
-                VALUES (:memberId, :contents, :createdDate, :createdAt)
+                INSERT INTO %s (member_id, contents, created_date, like_count, version, created_at)
+                VALUES (:memberId, :contents, :createdDate, :likeCount, :version, :createdAt)
                 """, TABLE_NAME
         ); //language=MySQL
 

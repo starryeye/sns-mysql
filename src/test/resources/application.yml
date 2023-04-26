@@ -1,10 +1,12 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/sns-jpa?rewriteBatchedStatements=true&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=999999&serverTimezone=UTC&characterEncoding=UTF-8
-    url: jdbc:mysql://localhost:3306/sns-jpa?rewriteBatchedStatements=true&serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/sns-jpa?profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=999999&serverTimezone=UTC&characterEncoding=UTF-8
     username: sns-svc
     password: sns-pass
+    hikari:
+      data-source-properties:
+        rewriteBatchedStatements: true
   jpa:
     hibernate:
       ddl-auto: create

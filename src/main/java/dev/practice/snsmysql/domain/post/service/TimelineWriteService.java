@@ -13,7 +13,6 @@ public class TimelineWriteService {
 
     //Bulk insert 는 jpa 에서 @GeneratedValue(strategy = GenerationType.IDENTITY) 를 사용하는 경우..
     //한방 쿼리가 불가능 하여 jdbcTemplate 와 같이 native query 를 사용해야한다..
-    //TODO : JPA 의 @Query(native = true) 로 하면 한방 쿼리 가능?
     private final TimelineRepository timelineRepository;
 
     public void deliveryToTimeline(Long postId, List<Long> fromMemberIds) {

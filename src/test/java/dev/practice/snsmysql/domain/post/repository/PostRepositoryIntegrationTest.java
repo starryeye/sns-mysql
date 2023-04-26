@@ -364,9 +364,4 @@ class PostRepositoryIntegrationTest {
 
         Assertions.assertThat(jpa).isEqualTo(jdbcTemplate);
     }
-
-    @Test
-    void bulkInsert() {
-        //TODO
-    }
 }

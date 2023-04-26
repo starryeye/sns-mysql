@@ -158,4 +158,17 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostRepositor
      * JPQL, Query Method : 상동
      */
 //    List<Post> findTopXXByMemberIdInAndIdLessThanOrderByIdDesc(List<Long> memberIds);
+
+    /**
+     * bulk insert
+     * @Query(nativeQuery=true, value="~") 로 시도 해보려 했으나..
+     * native query 라서 Post 프로퍼티가 낱개로 쿼리 문에 존재하는데 파라미터로는 List<Post> 형식으로 들어오기 때문에..
+     * ":#{#}" 로 해결해보려 했으나 문법이 안맞음..
+     * JPQL 로 해결하려면 MySQL 에서는 IDENTITY 전략이므로 bulk insert 안됨..
+     * -> TODO : JdbcTemplate 을 사용하는 방법 말고 @Query(nativeQuery=true) 로 안되는지 더 찾아보기..
+     */
+
+    /**
+     * TODO: Optimistic Lock, Update
+     */
 }

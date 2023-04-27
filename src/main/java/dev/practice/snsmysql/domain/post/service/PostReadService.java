@@ -4,6 +4,7 @@ import dev.practice.snsmysql.domain.post.dto.DailyPostCount;
 import dev.practice.snsmysql.domain.post.dto.DailyPostCountRequest;
 import dev.practice.snsmysql.domain.post.dto.PostDto;
 import dev.practice.snsmysql.domain.post.entity.Post;
+import dev.practice.snsmysql.domain.post.repository.PostRepository;
 import dev.practice.snsmysql.domain.post.repository.jdbc.PostRepositoryByJdbc;
 import dev.practice.snsmysql.util.CursorRequest;
 import dev.practice.snsmysql.util.PageCursor;
@@ -18,10 +19,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostReadService {
 
-    private final PostRepositoryByJdbc postRepository;
+    private final PostRepository postRepository;
 
     public PostDto getPost(Long postId) {
-        var post = postRepository.findById(postId, false).orElseThrow();
+        var post = postRepository.findById(postId).orElseThrow();
         return toDto(post);
     }
 
@@ -39,10 +40,9 @@ public class PostReadService {
          * group by createdDate memberId
          */
 
-        return postRepository.groupByCreatedDate(request);
+        return postRepository.countByMemberIdAndCreatedDateBetween(request);
     }
 
-    //TODO: Spring Data JPA 로 변경, PageRequest -> Pageable
     public Page<PostDto> getPosts(Long memberId, Pageable request) {
 
         //TODO: 리턴 값을 Page<PostDto> 로 변경 고려
@@ -74,7 +74,7 @@ public class PostReadService {
     }
 
     public List<PostDto> getPosts(List<Long> ids) {
-        return postRepository.findAllByInIds(ids).stream()
+        return postRepository.findAllByIdIn(ids).stream()
                 .map(this::toDto)
                 .toList();
     }
@@ -82,19 +82,19 @@ public class PostReadService {
     private List<Post> findAllBy(Long memberId, CursorRequest request) {
 
         if(request.hasKey()) {
-            return postRepository.findAllByLessThanIdAndMemberIdAndOrderByIdDesc(request.key(), memberId, request.size());
+            return postRepository.findAllByMemberIdAndIdLessThanOrderByIdDescWithLimit(request.key(), memberId, request.size());
         }
 
-        return postRepository.findAllByMemberIdAndOrderByIdDesc(memberId, request.size());
+        return postRepository.findAllByMemberIdOrderByIdDescWithLimit(memberId, request.size());
     }
 
     private List<Post> findAllBy(List<Long> memberIds, CursorRequest request) {
 
         if(request.hasKey()) {
-            return postRepository.findAllByLessThanIdAndInMemberIdsAndOrderByIdDesc(request.key(), memberIds, request.size());
+            return postRepository.findAllByMemberIdInAndIdLessThanOrderByIdDesWithLimit(request.key(), memberIds, request.size());
         }
 
-        return postRepository.findAllByInMemberIdsAndOrderByIdDesc(memberIds, request.size());
+        return postRepository.findAllByMemberIdInOrderByIdDescWithLimit(memberIds, request.size());
     }
 
     private static long getLastKey(List<Post> posts) {

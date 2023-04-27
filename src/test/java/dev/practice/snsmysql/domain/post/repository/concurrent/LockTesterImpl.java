@@ -15,7 +15,7 @@ public class LockTesterImpl implements LockTester {
     @Autowired
     PostRepository postRepository;
 
-    @Transactional()
+    @Transactional
     @Override
     public void findByIdUsingPessimisticWriteLockWithLockTimeout(Post post) {
 
@@ -23,5 +23,14 @@ public class LockTesterImpl implements LockTester {
 
         // 비관적 락 동작 하지 않음, 락 획득 성공
         Assertions.assertThat(true).isFalse();
+    }
+
+    @Transactional //Optimistic 은 Transactional 이 필요 없지만, JPA 를 위함(OSIV 대비)
+    @Override
+    public void likePostForOptimisticLockTest(Long postId) {
+
+        Post findPost = postRepository.findById(postId).orElseThrow();
+
+        findPost.increaseLikeCount();
     }
 }

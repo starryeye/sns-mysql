@@ -43,8 +43,9 @@ public class Post {
     @Column(nullable = false)
     private Long likeCount; //좋아요 수
 
+    //낙관적 락, JPA Optimistic Locking
     @Version
-    private Long version; //낙관적 락, JPA Optimistic Locking
+    private Long version;
 
     @Column(nullable = false)
     private LocalDateTime createdAt; //Entity 생성 시간

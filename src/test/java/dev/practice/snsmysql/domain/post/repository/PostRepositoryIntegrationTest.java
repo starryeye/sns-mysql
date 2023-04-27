@@ -7,6 +7,7 @@ import dev.practice.snsmysql.domain.post.repository.concurrent.LockTester;
 import dev.practice.snsmysql.domain.post.repository.jdbc.PostRepositoryByJdbc;
 import dev.practice.snsmysql.util.PostFixtureFactory;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.jeasy.random.EasyRandom;
@@ -14,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -363,5 +365,44 @@ class PostRepositoryIntegrationTest {
         Assertions.assertThat(jpa.size()).isEqualTo(jdbcTemplate.size());
 
         Assertions.assertThat(jpa).isEqualTo(jdbcTemplate);
+    }
+
+    @Test
+    void optimisticLock_JPA() {
+
+        int threadPoolSize = 3;
+        ExecutorService service = Executors.newFixedThreadPool(threadPoolSize);
+
+        Future<?> futureTx1 = service.submit(
+                () -> {
+                    lockTester.likePostForOptimisticLockTest(postOne.getId());
+                }
+        );
+        Future<?> futureTx2 = service.submit(
+                () -> {
+                    lockTester.likePostForOptimisticLockTest(postOne.getId());
+                }
+        );
+        Future<?> futureTx3 = service.submit(
+                () -> {
+                    lockTester.likePostForOptimisticLockTest(postOne.getId());
+                }
+        );
+
+        service.shutdown();
+
+        try {
+            futureTx1.get();
+            futureTx2.get();
+            futureTx3.get();
+        } catch (ExecutionException | InterruptedException e) {
+
+            if(e.getCause() instanceof OptimisticLockingFailureException) {
+                log.info("OptimisticLockingFailureException !!");
+                Assertions.assertThat(true).isTrue();
+            }else {
+                Assertions.assertThat(false).isTrue();
+            }
+        }
     }
 }

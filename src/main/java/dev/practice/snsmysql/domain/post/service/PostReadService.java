@@ -45,7 +45,6 @@ public class PostReadService {
 
     public Page<PostDto> getPosts(Long memberId, Pageable request) {
 
-        //TODO: 리턴 값을 Page<PostDto> 로 변경 고려
         var posts = postRepository.findAllByMemberId(memberId, request);
 
         return posts.map(this::toDto);

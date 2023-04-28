@@ -108,7 +108,6 @@ public class PostRepositoryByJdbc {
      *
      * 여기서는 파라미터를 받아서 락 여부를 제어하겠다..
      * JPA 에서는 어노테이션을 통해서 해결할 수 있다.
-     * TODO: @Transactional(readOnly = false), @Lock(LockModeType.PESSIMISTIC_WRITE) 찾아보기
      */
     public Optional<Post> findById(Long postId, Boolean requiredLock) {
         var sql = String.format(

@@ -14,8 +14,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * TODO : JPA 로 변경
- *
  * History 데이터는 Update 기능이 없어야 한다.
  */
 @Repository

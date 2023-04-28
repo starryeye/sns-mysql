@@ -169,6 +169,8 @@ public interface PostRepository extends JpaRepository<Post, Long>, PostRepositor
      */
 
     /**
-     * TODO: Optimistic Lock, Update
+     * Optimistic Lock, Update
+     * -> @Version 만 Entity 에 적용해도 적용된다. (LockModeType.NONE)
+     * TODO: 모든 LockModeType 학습
      */
 }

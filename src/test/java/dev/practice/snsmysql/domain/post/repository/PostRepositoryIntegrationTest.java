@@ -7,7 +7,6 @@ import dev.practice.snsmysql.domain.post.repository.concurrent.LockTester;
 import dev.practice.snsmysql.domain.post.repository.jdbc.PostRepositoryByJdbc;
 import dev.practice.snsmysql.util.PostFixtureFactory;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.jeasy.random.EasyRandom;

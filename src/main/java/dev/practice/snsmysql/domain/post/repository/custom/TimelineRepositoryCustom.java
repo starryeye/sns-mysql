@@ -1,11 +1,9 @@
 package dev.practice.snsmysql.domain.post.repository.custom;
 
 import dev.practice.snsmysql.domain.post.entity.Timeline;
-import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
-//TODO : Slice 도입 후 삭제 시도
 public interface TimelineRepositoryCustom {
 
     /**

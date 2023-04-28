@@ -17,8 +17,6 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * TODO : JPA 로 변경
- *
  * TODO: SqlParameterSource 의 3가지 구현체 공부 해볼 것
  */
 @Repository

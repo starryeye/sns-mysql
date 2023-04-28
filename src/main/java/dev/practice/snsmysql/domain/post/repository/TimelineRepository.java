@@ -20,6 +20,4 @@ public interface TimelineRepository extends JpaRepository<Timeline, Long>, Timel
 //    List<Timeline> findAllByMemberId(@Param("memberId")Long memberId, @Param("size")int size);
 
     //그래서 custom 으로 해결하였다.
-
-    //TODO: Slice 사용
 }

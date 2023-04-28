@@ -44,7 +44,6 @@ public class MemberWriteService {
         return savedMember;
     }
 
-    //TODO: JPA 에서는 Dirty Check 를 통해서 수정해야 한다.
     public void changeNickname(Long memberId, String nickname) {
         /**
          * 목표 - 회원의 닉네임을 변경한다.
@@ -54,7 +53,6 @@ public class MemberWriteService {
 
         var member = memberRepository.findById(memberId).orElseThrow();
         member.changeNickname(nickname);
-        memberRepository.save(member);
 
         saveMemberNicknameHistory(member);
     }

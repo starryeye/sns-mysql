@@ -48,9 +48,19 @@ follow
 - 회원이 팔로우한 회원 조회  
   - GET http://localhost:8080/follows/{fromMemberId}  
   
+## Implement & Study Point
+- Offset Pagination vs Cusor Pagination  
+- 정규화, 비정규화  
+- non clustered index, clusted index  
+- covering index  
+- fan out on write(push model), fan out on read(pull model), CAP 이론  
+- transaction
+- read lock, write lock
+- pessimistic lock, optimistic lock
+  
 ## Architecture
 - Layered Architecture
-
+  
 ## DB
 <img width="404" alt="image" src="https://user-images.githubusercontent.com/33487061/232205101-617c2565-a47a-4af6-8738-aeca73fc5ede.png">
   

@@ -1,16 +1,10 @@
 # sns-mysql
 
-## Branch
-AS-IS  
+## Branch  
 - main : Spring Data Jpa + JdbcTemplate version  
-- jdbctemplate : JdbcTemplate version  
+- jdbctemplate : JdbcTemplate version   
   
-TO-BE  
-- main : QueryDsl + Spring Data Jpa + JdbcTemplate version  
-- jpa : Spring Data Jpa version  
-- jdbctemplate : JdbcTemplate version  
-  
-## Concept Studied
+## Topic
 - 대용량 트래픽 처리  
 -  
   

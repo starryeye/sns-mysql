@@ -2,6 +2,10 @@ server:
   port: 9090
 
 spring:
+  data:
+    redis:
+      port: 6379
+      host: localhost
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
 #    url: jdbc:mysql://localhost:3306/sns?rewriteBatchedStatements=true&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=999999&serverTimezone=UTC&characterEncoding=UTF-8

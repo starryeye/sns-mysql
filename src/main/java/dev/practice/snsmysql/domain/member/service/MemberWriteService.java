@@ -44,11 +44,14 @@ public class MemberWriteService {
         return savedMember;
     }
 
+    @Transactional
     public void changeNickname(Long memberId, String nickname) {
         /**
          * 목표 - 회원의 닉네임을 변경한다.
          * 1. 회원의 이름을 변경
          * 2. 변경 내역(바꾼 이름)을 저장한다.
+         *
+         * 정합성 유지를 위한 트랜잭션 처리 + dirty check
          */
 
         var member = memberRepository.findById(memberId).orElseThrow();

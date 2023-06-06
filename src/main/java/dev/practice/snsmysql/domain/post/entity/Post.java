@@ -1,6 +1,5 @@
 package dev.practice.snsmysql.domain.post.entity;
 
-import dev.practice.snsmysql.domain.member.entity.MemberNicknameHistory;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

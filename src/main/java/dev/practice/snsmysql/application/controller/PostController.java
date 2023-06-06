@@ -106,5 +106,12 @@ public class PostController {
      *
      * 그래서, 주기적 비동기로 PostLike 테이블에 Count 쿼리를 날려서..
      * Post 테이블의 likeCount 필드를 업데이트 하는 방식을 사용하면 좋을 것 같다.
+     * or
+     * Redis Data Type 을 적절히 활용하여 게시물별 좋아요수를 업데이트하고 조회하도록 해보자..
+     * -> PostLike 테이블은 히스토리를 위해서  유지하고
+     * -> 좋아요 수 집계를 위한 부분만 Redis 로 해보도록 한다.
+     * -> 좋아요 수 조회와 좋아요 수 업데이트에 대해 O(1) 로 보장되는.. Redis Hashes 로 구현해보자.
+     * -> Redis 의 특징으로 race condition 을 걱정할 필요가 없다.
+     * -> Key: postlike, field: {postId}, value: {좋아요 수}
      */
 }

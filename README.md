@@ -1,7 +1,7 @@
 # sns-mysql
 
 ## Branch  
-- main : Spring Data Jpa + JdbcTemplate version  
+- main : Spring Data Jpa/Redis + JdbcTemplate version  
 - jdbctemplate : JdbcTemplate version   
   
 ## Topic
@@ -26,6 +26,7 @@ https://github.com/starryeye/sns-mysql/tree/release/snapshot-jdbctemplate
 - Spring Boot 3.0.5
 - Spring Web
 - Spring Data Jpa
+- Spring Data Redis
 - Lombok
 - MySQL
 - Springdoc

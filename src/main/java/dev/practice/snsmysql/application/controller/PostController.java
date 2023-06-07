@@ -114,8 +114,9 @@ public class PostController {
      * -> Redis 의 특징으로 race condition 을 걱정할 필요가 없다.
      * -> Key: post:{postId}, field: likeCount, value: {좋아요 수}
      *
-     * TODO: 게시글이 40억개가 넘어간다면? (Redis Hashes 최대 field-value) 고민해볼것..
-     * -> Cluster(shard)
-     * -> 1번 방법이 나을듯..
+     * TODO: Key: post:postLike, field: postId, value: 객체..
+     * -> TODO: 게시글이 40억개가 넘어간다면? (Redis Hashes 최대 field-value) 고민해볼것..
+     * -> -> Cluster(shard)
+     * -> -> 1번 방법이 나을듯..
      */
 }

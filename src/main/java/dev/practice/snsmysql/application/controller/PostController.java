@@ -112,7 +112,7 @@ public class PostController {
      * -> 좋아요 수 집계를 위한 부분만 Redis 로 해보도록 한다.
      * -> 좋아요 수 조회와 좋아요 수 업데이트에 대해 O(1) 로 보장되는.. Redis Hashes 로 구현해보자.
      * -> Redis 의 특징으로 race condition 을 걱정할 필요가 없다.
-     * -> Key: postlike, field: {postId}, value: {좋아요 수}
+     * -> Key: post:{postId}, field: likeCount, value: {좋아요 수}
      *
      * TODO: 게시글이 40억개가 넘어간다면? (Redis Hashes 최대 field-value) 고민해볼것..
      * -> Cluster(shard)

@@ -11,6 +11,9 @@ import java.util.Objects;
 @RedisHash(value = "post")
 public class PostRedisHashes {
 
+    public static final String KEY = "post:%s";
+    public static final String LIKE_COUNT = "likeCount";
+
     @Id
     private String id; //postId
 

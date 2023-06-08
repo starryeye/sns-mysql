@@ -6,12 +6,15 @@
   
 ## Topic
 - 대용량 트래픽 처리에 필요한 고려 사항  
-  -  정규화, 비정규화
-  -  조회 최적화를 위한 인덱스
-  -  오프셋/커서 기반 페이지네이션
-  -  Fan out on read, Fan out on write
-  -  Transaction
-  -  Optimistic/Pessimistic Lock
+  - 관련 글 포스팅
+    - https://starryeye.tistory.com/171
+    - https://starryeye.tistory.com/172
+  - 정규화, 비정규화
+  - 조회 최적화를 위한 인덱스
+  - 오프셋/커서 기반 페이지네이션
+  - Fan out on read, Fan out on write
+  - Transaction
+  - Optimistic/Pessimistic Lock
 
 ## API 및 DB
 설명은 아래 jdbctemplate branch URL 참조  

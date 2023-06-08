@@ -4,8 +4,10 @@ import dev.practice.snsmysql.domain.post.dto.DailyPostCount;
 import dev.practice.snsmysql.domain.post.dto.DailyPostCountRequest;
 import dev.practice.snsmysql.domain.post.dto.PostDto;
 import dev.practice.snsmysql.domain.post.entity.Post;
+import dev.practice.snsmysql.domain.post.repository.PostRedisDataStore;
 import dev.practice.snsmysql.domain.post.repository.PostRepository;
 import dev.practice.snsmysql.domain.post.repository.jdbc.PostRepositoryByJdbc;
+import dev.practice.snsmysql.domain.post.repository.redis.PostRedisHashes;
 import dev.practice.snsmysql.util.CursorRequest;
 import dev.practice.snsmysql.util.PageCursor;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import java.util.List;
 public class PostReadService {
 
     private final PostRepository postRepository;
+    private final PostRedisDataStore postRedisDataStore;
 
     public PostDto getPost(Long postId) {
         var post = postRepository.findById(postId).orElseThrow();
@@ -94,6 +97,17 @@ public class PostReadService {
         }
 
         return postRepository.findAllByMemberIdInOrderByIdDescWithLimit(memberIds, request.size());
+    }
+
+    /**
+     * TODO: schedule server
+     *  -> 일정 주기로 Post DB 의 likeCount 컬럼에 밀어주는 방식으로 해보자 (아래 메서드는 삭제)
+     *  -> 밀어 넣어 놓으면 PostReadService 는 건드리지 않아도 된다.
+     */
+    //
+    private Long getPostLike(String postId) {
+        PostRedisHashes postRedisHashes = postRedisDataStore.findById(postId).orElseThrow();
+        return postRedisHashes.getLikeCount();
     }
 
     private static long getLastKey(List<Post> posts) {

@@ -7,8 +7,8 @@
 ## Topic
 - 대용량 트래픽 처리에 필요한 고려 사항  
   - 관련 글 포스팅
-    - https://starryeye.tistory.com/171
-    - https://starryeye.tistory.com/172
+    - [시스템 설계 고민 1](https://starryeye.tistory.com/171)
+    - [시스템 설계 고민 2](https://starryeye.tistory.com/172)
   - 정규화, 비정규화
   - 조회 최적화를 위한 인덱스
   - 오프셋/커서 기반 페이지네이션

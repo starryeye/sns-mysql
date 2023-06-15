@@ -143,7 +143,7 @@ class PostRepositoryIntegrationTest {
      */
     @Test
     @Transactional
-    void findByIdWithPessimisticReadLock_JPA() throws Throwable {
+    void findByIdWithPessimisticWriteLock_JPA() throws Throwable {
 
         //when
         Post lockedPost = postRepository.findByIdUsingPessimisticWriteLock(postOne.getId()).orElseThrow();
@@ -215,7 +215,7 @@ class PostRepositoryIntegrationTest {
 
     @Test
     @Transactional
-    void findByIdWithPessimisticReadLock_Jdbc() {
+    void findByIdWithPessimisticWriteLock_Jdbc() {
         //TODO
     }
 

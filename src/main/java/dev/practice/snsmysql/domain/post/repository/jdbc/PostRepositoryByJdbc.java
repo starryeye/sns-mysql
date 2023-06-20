@@ -256,8 +256,8 @@ public class PostRepositoryByJdbc {
      *
      * VALUES (~,~,~,~), (~,~,~,~), (~,~,~,~) 와 같은 형태로 쿼리가 실행된다.
      *
-     * JPA 에서는 @BatchSize 를 사용하면 된다.
-     * 하지만, Auto Increment 를 사용하는 경우에는 @BatchSize 를 사용하여도 쿼리가 여러번 실행된다.
+     * JPA 에서는 hibernate.jdbc.batch_size 를 사용하면 된다.
+     * 하지만, Auto Increment 를 사용하는 경우에는 hibernate.jdbc.batch_size 를 사용하여도 쿼리가 여러번 실행된다.
      */
     public void bulkInsert(List<Post> posts) {
         var sql = String.format(

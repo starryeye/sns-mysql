@@ -7,11 +7,12 @@
 ## Topic
 - 대용량 트래픽 처리 트러블 슈팅 및 고민 주제..
   - 관련 글 포스팅
-    - [시스템 설계 고민 1](https://starryeye.tistory.com/171)
-    - [시스템 설계 고민 2](https://starryeye.tistory.com/172)
+    - [대용량 트래픽과 동시성 문제](https://starryeye.tistory.com/171)
+    - [대용량 트래픽과 조회와 쓰기 트래이드오프](https://starryeye.tistory.com/172)
   - 정규화, 비정규화
   - 오프셋/커서 기반 페이지네이션
   - Fan out on read, Fan out on write
+  - 동시성 문제
   - Transaction
   - Optimistic/Pessimistic Lock
 

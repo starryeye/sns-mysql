@@ -17,8 +17,9 @@
   - Optimistic/Pessimistic Lock
 
 ## API 및 DB 구조
-설명은 아래 jdbctemplate branch URL 참조  
+- 설명은 아래 jdbctemplate branch URL 참조  
 https://github.com/starryeye/sns-mysql/tree/release/snapshot-jdbctemplate
+- swagger-ui
 
 ## Test
 - Bulk insert test
